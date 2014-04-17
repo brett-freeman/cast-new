@@ -1,0 +1,59 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Cast{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-inverse" role="navigation">
+
+<div class="container-fluid" style="width: 70%">
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ url_for('cast.index') }}">#420@P2PNET</a>
+    </div>
+
+    <ul class="nav navbar-nav">
+		<li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cast <b class="caret"></b></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="{{ url_for('cast.pick') }}">Pick!</a></li>
+	            <li><a href="#">View Next Cast</a></li>
+	            <li><a href="#">Previous Casts</a></li>
+	          </ul>
+	    </li>
+	</ul>
+	{% if current_user.is_authenticated() %}
+    <ul class="nav navbar-nav navbar-right">
+		<li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ current_user.username }} <b class="caret"></b></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="#">Profile</a></li>
+	            <li><a href="{{ url_for('auth.logout') }}">Log out</a></li>
+	          </ul>
+	    </li>
+	</ul>
+	{% else %}
+	<form class="navbar-form navbar-right" style="padding: 0;">
+		<a href="{{ url_for('auth.login') }}" class="btn btn-default navbar-btn" role="button">Log in</a>
+		<a href="{{ url_for('auth.register') }}" class="btn btn-default navbar-btn" role="button">Register</a></li>
+	</form>
+	{% endif %}
+</div>
+
+</nav>
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+	<button type="button" class="close" data-dismiss="alert"></button>
+	{{ message }}
+</div>
+{% endfor %}
+
+<div class="container">
+	{% block page_content %}{% endblock %}
+</div>
+{% endblock %}
