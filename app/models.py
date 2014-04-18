@@ -35,8 +35,8 @@ class Cast(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.String(80))
     date = db.Column(db.String(80))
-    bongcast_number = db.Column(db.Integer, unique=True)
-    desc = db.Column(db.Text)
+    cast_number = db.Column(db.Integer, unique=True)
+    description = db.Column(db.Text)
     picture_url = db.Column(db.String(1024))
 
     host_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -45,10 +45,10 @@ class Cast(db.Model):
 class Pick(db.Model):
     __tablename__ = 'picks'
     id = db.Column(db.Integer, primary_key=True)
-    artist = db.Column(db.String(255))
-    album = db.Column(db.String(255))
-    song = db.Column(db.String(255))
-    desc = db.Column(db.Text)
+    artist = db.Column(db.String(255), index=True)
+    album = db.Column(db.String(255), index=True)
+    song = db.Column(db.String(255), index=True)
+    description = db.Column(db.Text)
     picture_url = db.Column(db.String(1024))
     waffles_link = db.Column(db.String(1024))
     what_link = db.Column(db.String(1024))

@@ -23,9 +23,17 @@
 	            <li><a href="{{ url_for('cast.pick') }}">Pick!</a></li>
 	            <li><a href="#">View Next Cast</a></li>
 	            <li><a href="#">Previous Casts</a></li>
+	            <li class="divider"></li>
+	            <li><a href="{{ url_for('cast.create_cast') }}">Create Cast</a></li>
 	          </ul>
 	    </li>
 	</ul>
+	<form class="navbar-form navbar-left" role="search">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Search">
+		</div>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
 	{% if current_user.is_authenticated() %}
     <ul class="nav navbar-nav navbar-right">
 		<li class="dropdown">
@@ -37,9 +45,11 @@
 	    </li>
 	</ul>
 	{% else %}
-	<form class="navbar-form navbar-right" style="padding: 0;">
-		<a href="{{ url_for('auth.login') }}" class="btn btn-default navbar-btn" role="button">Log in</a>
-		<a href="{{ url_for('auth.register') }}" class="btn btn-default navbar-btn" role="button">Register</a></li>
+	<form method="post" class="navbar-form navbar-right" action="#">
+		<div class="form-group">
+			<a href="{{ url_for('auth.login') }}" class="btn btn-default" role="button">Log in</a>
+			<a href="{{ url_for('auth.register') }}" class="btn btn-default" role="button">Register</a></li>
+		</div>
 	</form>
 	{% endif %}
 </div>

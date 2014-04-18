@@ -1,0 +1,14 @@
+<div class="jumbotron">
+	<div class="media">
+		<div class="col-xs-7 col-md-4">
+		<a href="#" class="thumbnail pull-left">
+			<img src="http://bongcast.com/static/img/unknown-album.png" />
+		</a>
+		</div>
+
+		<h2>Cast #{{ cast.cast_number }} <a class="btn btn-primary btn-lg" role="button" href="{{ url_for('cast.pick') }}">Pick!</a><br />
+			<small>hosted by <a href="#">{{ cast.host.username }}</a> on {{ cast.date }} at {{ cast.time }} with {{ cast.picks.count() }} picks</small></h2>
+		<p>{{ cast.description }}</p>
+	</div>
+</div>
+{% include "cast/_picks.html" %}

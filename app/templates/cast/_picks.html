@@ -1,0 +1,22 @@
+<ul class="list-group">
+{% for pick in cast.picks %}
+	<li class="list-group-item">
+
+	<div class="media">
+		<div class="col-xs-6 col-md-3">
+			<a class="thumbnail pull-left" href="#">
+				<img src="http://bongcast.com/static/img/unknown-album.png" class="media-object" />
+			</a>
+		</div>
+
+		<div class="media-body">
+			<h3 class="media-heading page-header">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}</h3>
+
+    		{{ pick.description }}
+    		<p style="margin-top: 15%; position: relative;"><small>Picked by </small><a href="#">{{ pick.author.username }}</a></p>
+  		</div>
+	</div>
+
+	</li>
+{% endfor %}
+</ul>
