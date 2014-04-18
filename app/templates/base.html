@@ -66,4 +66,13 @@
 <div class="container">
 	{% block page_content %}{% endblock %}
 </div>
+<footer style="text-align: center;">
+	<p>_\|/_</p>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_jquery() }}
+{{ moment.include_moment() }}
 {% endblock %}

@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import Required, Length, EqualTo
+from datetime import datetime
 
 class PickForm(Form):
 	artist = StringField('Artist', validators=[Required()])
