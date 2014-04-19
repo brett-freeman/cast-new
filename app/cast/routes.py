@@ -41,7 +41,7 @@ def pick():
 def create_cast():
 	form = CastForm()
 	form.host.choices = [ (user.id, user.username) for user in User.query.all()]
-	form.cast_number.data = g.next_cast.cast_number + 1
+	form.cast_number.data =   g.next_cast.cast_number + 1  if g.next_cast else 1
 
 	if form.validate_on_submit():
 		cast = Cast()
