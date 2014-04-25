@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db, login_manager
+from app.extensions import db, login_manager
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -58,3 +58,20 @@ class Pick(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     cast_id = db.Column(db.Integer, db.ForeignKey('casts.id'))
+
+class Link(db.Model):
+    __bind_key__ = 'links'
+    __tablename__ = 'links'
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String)
+    nickname = db.Column(db.String)
+    last_sent = db.Column(db.DateTime)
+
+    @property
+    def json(self):
+        return {
+            'id': self.id,
+            'url': self.url,
+            'nickname': self.nickname,
+            'last_sent': self.last_sent
+        }

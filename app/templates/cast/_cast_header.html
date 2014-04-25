@@ -5,7 +5,7 @@
 	<div class="media">
 		<div class="col-xs-6 col-md-3">
 		<a href="#" class="thumbnail pull-left">
-			<img src="http://bongcast.com/static/img/unknown-album.png" />
+			<img src="{{ cast.picture_url if cast.picture_url else '/static/img/unknown-album.png' }}" />
 		</a>
 		</div>
 		<p>{{ cast.description }}</p>

@@ -32,7 +32,7 @@ class CastForm(Form):
 	submit = SubmitField('Create cast')
 
 	def from_model(self, cast):
-		self.cast_number.data = cast.cast_number.data
+		self.cast_number.data = cast.cast_number
 		self.time.data = cast.time
 		self.date.data = cast.date
 		self.description.data = cast.description

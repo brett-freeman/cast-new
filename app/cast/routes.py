@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, g
 from flask.ext.login import login_required, current_user
 
-from app import db
+from app.extensions import db
 from . import cast
 from .forms import PickForm, CastForm
 from ..models import User, Cast, Pick
@@ -41,7 +41,6 @@ def pick():
 def create_cast():
 	form = CastForm()
 	form.host.choices = [ (user.id, user.username) for user in User.query.all()]
-	form.cast_number.data =   g.next_cast.cast_number + 1  if g.next_cast else 1
 
 	if form.validate_on_submit():
 		cast = Cast()
@@ -55,6 +54,7 @@ def create_cast():
 
 		flash('Cast added.')
 		return redirect(url_for('cast.index'))
-
+	else:
+		form.cast_number.data = g.next_cast.cast_number + 1  if g.next_cast else 1
 
 	return render_template('cast/create.html', form=form)
