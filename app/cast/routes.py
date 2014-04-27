@@ -14,7 +14,8 @@ def before_request():
 
 @cast.route('/')
 def index():
-	return render_template('cast/index.html', cast=g.next_cast)
+	cast = Cast.query.order_by(Cast.cast_number.desc()).first()
+	return render_template('cast/index.html', cast=cast)
 
 @cast.route('/pick', methods=['GET', 'POST'])
 @login_required

@@ -1,0 +1,63 @@
+{% macro build_picks(picks, moment) %}
+<ul class="list-group">
+{% for pick in picks|sort(attribute='id', reverse=True) %}
+	<li class="list-group-item">
+
+	<div class="media">
+		<div class="col-md-3">
+			<a class="thumbnail pull-left" href="#">
+				<img src="{{ pick.picture_url if pick.picture_url else 'http://bongcast.com/static/img/unknown-album.png' }}" class="media-object" />
+			</a>
+		</div>
+
+		<div class="media-body">
+			<h3 class="media-heading page-header">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}</h3>
+
+    		{{ pick.description }}
+    		<p style="margin-top: 10%; position: relative;"><small>Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small></p>
+  		</div>
+	</div>
+
+	</li>
+{% endfor %}
+</ul>
+{% endmacro %}
+
+{% macro build_pick(pick, moment) %}
+<li class="list-group-item">
+
+	<div class="media">
+		<div class="col-md-3">
+			<a class="thumbnail pull-left" href="#">
+				<img src="{{ pick.picture_url if pick.picture_url else 'http://bongcast.com/static/img/unknown-album.png' }}" class="media-object" />
+			</a>
+		</div>
+
+		<div class="media-body">
+			<h3 class="media-heading page-header">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}</h3>
+
+    		{{ pick.description }}
+    		<p style="margin-top: 10%; position: relative;"><small>Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small></p>
+  		</div>
+	</div>
+
+	</li>
+{% endmacro %}
+
+{% macro build_cast_header(cast) %}
+{% if cast %}
+<div class="jumbotron">
+	<h2><strong>Bongcast {{ cast.cast_number }}</strong></h2>
+			<h2><p style="margin-left: 60px; font-size: 12pt;">hosted by <a href="#">{{ cast.host.username }}</a> <strong>on</strong> {{ cast.date }} <strong>at</strong> {{ cast.time }} <strong>with</strong> {{ cast.picks.count() }} picks</p></h2>
+	<div class="media">
+		<div class="col-xs-6 col-md-3">
+		<a href="#" class="thumbnail pull-left">
+			<img src="{{ cast.picture_url if cast.picture_url else '/static/img/unknown-album.png' }}" />
+		</a>
+		</div>
+		<p>{{ cast.description }}</p>
+		<p><a href="{{ url_for('cast.pick') }}" class="btn btn-primary btn-lg" role="button">Pick</a></p>
+	</div>
+</div>
+{% endif %}
+{% endmacro %}

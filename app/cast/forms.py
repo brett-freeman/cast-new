@@ -8,6 +8,7 @@ class PickForm(Form):
 	album = StringField('Album', validators=[Required()])
 	song = StringField('Song', validators=[Required()])
 	description = TextAreaField('Description')
+	picture_url = StringField('Picture URL (optional)')
 	submit = SubmitField('Pick!')
 
 	def from_model(self, pick):
@@ -15,12 +16,14 @@ class PickForm(Form):
 		self.album.data = pick.album
 		self.song.data = pick.song
 		self.description.data = pick.description
+		self.picture_url.data = pick.picture_url
 
 	def to_model(self, pick):
 		pick.artist = self.artist.data
 		pick.album = self.album.data
 		pick.song = self.song.data
 		pick.description = self.description.data
+		pick.picture_url = self.picture_url.data
 
 class CastForm(Form):
 	cast_number = StringField('Cast Number', validators=[Required()])
