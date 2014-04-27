@@ -58,3 +58,12 @@ def create_cast():
 		form.cast_number.data = g.next_cast.cast_number + 1  if g.next_cast else 1
 
 	return render_template('cast/create.html', form=form)
+
+@cast.route('/user')
+@cast.route('/user/<string:username>', endpoint='user', methods=['GET', 'POST'])
+def profile(username=None):
+	if username:
+		user = User.query.filter_by(username=username).first_or_404()
+		return render_template('cast/user.html', user=user)
+
+	return redirect(url_for('cast.index'))
