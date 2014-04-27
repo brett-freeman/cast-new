@@ -1,33 +1,35 @@
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-links_url = os.environ.get('HASHY_DATABASE_URL') if os.environ.get('HASHY_DATABASE_URL') else 'sqlite:////home/vagrant/am.db'
+
+sql_urls = {
+	'main': '',
+	'hashy': ''
+}
+secret_key = ''
 
 class Config:
-	SECRET_KEY = os.environ.get('SECRET_KEY')
+	SECRET_KEY = secret_key
 
 class DevelopmentConfig(Config):
 	DEBUG = True
-	SECRET_KEY = os.environ.get('SECRET_KEY') or '08132yh0of083n801dfhjqseCretKEYyYy'
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-		'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+	SECRET_KEY = secret_key or '08132yh0of083n801dfhjqseCretKEYyYy'
+	SQLALCHEMY_DATABASE_URI = sql_urls['main'] or 'sqlite:///' + os.path.join(basedir, 'main.db')
 	SQLALCHEMY_BINDS = {
-		'links':	links_url
+		'links':	sql_urls['hashy'] or 'sqlite:///' + os.path.join(basedir, 'hashy.db')
 	}
 
 class TestingConfig (Config):
 	TESTING = True
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-		'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
+	SQLALCHEMY_DATABASE_URI = sql_urls['main'] or 'sqlite:///' + os.path.join(basedir, 'main.db')
 	SQLALCHEMY_BINDS = {
-		'links':	links_url
+		'links':	sql_urls['hashy'] or 'sqlite:///' + os.path.join(basedir, 'hashy.db')
 	}
 
 class ProductionConfig(Config):
-	SQLALCHEMY_DATABASE_URI = os.environ.get('CAST_DATABASE_URL') or \
-		'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+	SQLALCHEMY_DATABASE_URI = sql_urls['main'] or 'sqlite:///' + os.path.join(basedir, 'main.db')
 	SQLALCHEMY_BINDS = {
-		'links':	links_url
+		'links':	sql_urls['hashy'] or 'sqlite:///' + os.path.join(basedir, 'hashy.db')
 	}
 
 config = {
