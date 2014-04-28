@@ -14,14 +14,12 @@ def before_request():
 	g.next_cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 
 @cast.route('/', endpoint='index')
-@cast.route('/cast/<int:id>', endpoint='view_cast')
-def index(id=None):
-	if id:
-		cast = Cast.query.get(int(id))
-		if not cast:
-			flash('Cast not found')
-			return redirect(url_for('cast.index'))
+@cast.route('/cast/<int:cast_number>', endpoint='view_cast')
+def index(cast_number=None):
+	if cast_number:
+		cast = Cast.query.filter_by(cast_number=int(cast_number)).first_or_404()
 		return render_template('cast/cast.html', cast=cast)
+
 	cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 	return render_template('cast/index.html', cast=cast)
 

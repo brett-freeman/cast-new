@@ -59,7 +59,7 @@
 {% macro build_cast_header(cast, current_user) %}
 {% if cast %}
 <div class="jumbotron">
-	<h2><strong>Bongcast {{ cast.cast_number }}</strong></h2>
+	<h2><strong>Bongcast <a href="{{ url_for('cast.view_cast', cast_number=cast.cast_number) }}">{{ cast.cast_number }}</a></strong></h2>
 			<h2><p style="margin-left: 60px; font-size: 12pt;">hosted by <a href="{{ url_for('cast.user', username=cast.host.username) }}">{{ cast.host.username }}</a> <strong>on</strong> {{ cast.date }} <strong>at</strong> {{ cast.time }} <strong>with</strong> {{ cast.picks.count() }} picks</p></h2>
 	<div class="media">
 		<div class="col-xs-6 col-md-3">
