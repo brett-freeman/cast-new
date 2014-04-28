@@ -4,6 +4,7 @@ from flask.ext.login import login_required, current_user
 from app.extensions import db
 from . import cast
 from .forms import PickForm, CastForm
+from .decorators import admin_required
 from ..models import User, Cast, Pick
 
 from datetime import datetime
@@ -44,11 +45,28 @@ def edit_pick(id=None):
 		return redirect(url_for('cast.index'))
 
 	pick = Pick.query.get(int(id))
-	if not pick or pick.author.id != current_user.id:
+	if not pick:
 		flash('Invalid pick.')
 		return redirect(url_for('cast.index'))
-
-	return 'Edit route.'
+	if current_user.is_admin or pick.author.id == current_user.id:
+		form = PickForm()
+		if form.validate_on_submit():
+			form.to_model(pick)
+			try:
+				db.session.add(pick)
+				db.session.commit()
+			except:
+				db.session.rollback()
+				flash('Unknown error adding pick')
+				return redirect(url_for('cast.index'))
+			flash('Pick edited successfully.')
+			return redirect(url_for('cast.index'))
+		form.from_model(pick)
+		return render_template('cast/edit_pick.html', form=form, pick=pick)
+	else:
+		flash('Invalid permissions.')
+		return redirect(url_for('cast.index'))
+	return redirect(url_for('cast.index'))
 
 @cast.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -72,6 +90,39 @@ def create_cast():
 		form.cast_number.data = g.next_cast.cast_number + 1  if g.next_cast else 1
 
 	return render_template('cast/create.html', form=form)
+
+@cast.route('/edit/cast/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_cast(id=None):
+	if not id:
+		return redirect(url_for('cast.index'))
+
+	cast = Cast.query.get(int(id))
+	if not cast:
+		flash('Invalid cast')
+		return redirect(url_for('cast.index'))
+
+	if current_user.is_admin or cast.host.id == current_user.id:
+		form = CastForm()
+		form.host.choices = [ (user.id, user.username) for user in User.query.all()]
+		if form.validate_on_submit():
+			form.to_model(cast)
+			try:
+				db.session.add(cast)
+				db.session.commit()
+			except:
+				flash('Unknown error editing cast!')
+				return redirect(url_for('cast.index'))
+			flash('Cast edited')
+			return redirect(url_for('cast.index'))
+		form.from_model(cast)
+		return render_template('/cast/edit_cast.html', form=form, cast=cast)
+	else:
+		flash('Invalid permissions')
+		return redirect(url_for('cast.index'))
+	return redirect(url_for('cast.index'))
+
+
 
 @cast.route('/user')
 @cast.route('/user/<string:username>', endpoint='user', methods=['GET', 'POST'])

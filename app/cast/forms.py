@@ -9,7 +9,7 @@ class PickForm(Form):
 	song = StringField('Song', validators=[Required()])
 	description = TextAreaField('Description')
 	picture_url = StringField('Picture URL (optional)')
-	submit = SubmitField('Pick!')
+	submit = SubmitField('Submit!')
 
 	def from_model(self, pick):
 		self.artist.data = pick.artist
@@ -32,7 +32,7 @@ class CastForm(Form):
 	host = SelectField('Host', coerce=int, validators=[Required()])
 	description = TextAreaField('Description')
 	picture_url = StringField('Picture URL (optional)')
-	submit = SubmitField('Create cast')
+	submit = SubmitField('Submit')
 
 	def from_model(self, cast):
 		self.cast_number.data = cast.cast_number

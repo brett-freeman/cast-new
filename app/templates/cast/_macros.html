@@ -56,7 +56,7 @@
 	</li>
 {% endmacro %}
 
-{% macro build_cast_header(cast) %}
+{% macro build_cast_header(cast, current_user) %}
 {% if cast %}
 <div class="jumbotron">
 	<h2><strong>Bongcast {{ cast.cast_number }}</strong></h2>
@@ -68,7 +68,11 @@
 		</a>
 		</div>
 		<p>{{ cast.description }}</p>
-		<p><a href="{{ url_for('cast.pick') }}" class="btn btn-primary btn-lg" role="button">Pick</a></p>
+		<p><a href="{{ url_for('cast.pick') }}" class="btn btn-primary btn-lg" role="button">Pick</a> 
+		{% if current_user.is_admin or current_user.id == cast.host.id %}
+			<a href="{{ url_for('cast.edit_cast', id=cast.id) }}" class="btn btn-primary btn-lg" role="button">Edit</a>
+		{% endif %}
+		</p>
 	</div>
 </div>
 {% endif %}

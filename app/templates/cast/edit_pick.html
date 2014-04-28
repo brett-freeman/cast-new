@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<h2 class="page-header">Edit {{ pick.author.username }}'s pick on cast {{ pick.cast.cast_number }}</h2>
+<div style="width: 50%">
+	{{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
