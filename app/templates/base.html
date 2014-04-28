@@ -22,7 +22,7 @@
 	          <ul class="dropdown-menu">
 	            <li><a href="{{ url_for('cast.pick') }}">Pick!</a></li>
 	            <li><a href="{{ url_for('cast.view_next_cast') }}">View Next Cast</a></li>
-	            <li><a href="{{ url_for('cast.view_all_casts') }}">Previous Casts</a></li>
+	            <li><a href="{{ url_for('cast.view_all_casts', view_all='all') }}">Previous Casts</a></li>
 	            <li class="divider"></li>
 	            <li><a href="{{ url_for('cast.create_cast') }}">Create Cast</a></li>
 	          </ul>

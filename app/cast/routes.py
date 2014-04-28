@@ -16,18 +16,17 @@ def before_request():
 @cast.route('/', endpoint='index')
 @cast.route('/cast/', endpoint='view_next_cast')
 @cast.route('/cast/<int:cast_number>/', endpoint='view_cast')
-def index(cast_number=None):
+@cast.route('/cast/<string:view_all>/', endpoint='view_all_casts')
+def index(cast_number=None, view_all=None):
 	if cast_number:
 		cast = Cast.query.filter_by(cast_number=int(cast_number)).first_or_404()
 		return render_template('cast/cast.html', cast=cast)
+	elif view_all == 'all':
+		casts = Cast.query.all()
+		return render_template('cast/view_all.html', casts=casts)
 
 	cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 	return render_template('cast/index.html', cast=cast)
-
-@cast.route('/cast/all/')
-def view_all_casts():
-	casts = Cast.query.all()
-	return render_template('cast/view_all.html', casts=casts)
 
 @cast.route('/pick/', methods=['GET', 'POST'])
 @login_required
