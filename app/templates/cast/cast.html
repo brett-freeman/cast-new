@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+{% from "cast/_macros.html" import build_cast_header, build_picks %}
+{{ build_cast_header(cast, current_user=current_user) }}
+{{ build_picks(cast.picks, moment=moment, current_user=current_user) }}
+
+{% endblock %}

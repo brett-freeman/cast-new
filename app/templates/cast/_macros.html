@@ -68,7 +68,10 @@
 		</a>
 		</div>
 		<p>{{ cast.description }}</p>
-		<p><a href="{{ url_for('cast.pick') }}" class="btn btn-primary btn-lg" role="button">Pick</a> 
+		<p>
+		{% if cast.id == g.next_cast.id %}
+		<a href="{{ url_for('cast.pick') }}" class="btn btn-primary btn-lg" role="button">Pick</a> 
+		{% endif %}
 		{% if current_user.is_admin or current_user.id == cast.host.id %}
 			<a href="{{ url_for('cast.edit_cast', id=cast.id) }}" class="btn btn-primary btn-lg" role="button">Edit</a>
 		{% endif %}
