@@ -6,7 +6,7 @@ from . import auth
 from .forms import RegisterForm, LoginForm
 from ..models import User
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/login/', methods=['GET', 'POST'])
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():
@@ -18,14 +18,14 @@ def login():
 		return redirect(request.args.get('next') or url_for('cast.index'))
 	return render_template('auth/login.html', form=form)
 
-@auth.route('/logout')
+@auth.route('/logout/')
 @login_required
 def logout():
 	logout_user()
 	flash('You have been logged out.')
 	return redirect(url_for('cast.index'))
 
-@auth.route('/register', methods=['GET', 'POST'])
+@auth.route('/register/', methods=['GET', 'POST'])
 def register():
 	form = RegisterForm()
 	if form.validate_on_submit():
