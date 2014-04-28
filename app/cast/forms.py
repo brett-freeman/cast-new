@@ -35,14 +35,12 @@ class CastForm(Form):
 	submit = SubmitField('Submit')
 
 	def from_model(self, cast):
-		self.cast_number.data = cast.cast_number
 		self.time.data = cast.time
 		self.date.data = cast.date
 		self.description.data = cast.description
 		self.picture_url.data = cast.picture_url
 
 	def to_model(self, cast):
-		cast.cast_number = self.cast_number.data
 		cast.time = self.time.data
 		cast.date = self.date.data
 		cast.description = self.description.data

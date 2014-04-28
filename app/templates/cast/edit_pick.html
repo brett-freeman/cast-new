@@ -3,7 +3,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-<h2 class="page-header">Edit 
+<h2 class="page-header">Editing 
 	<a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a>'s pick on cast 
 	<a href="{{ url_for('cast.view_cast', cast_number=pick.cast.cast_number) }}">{{ pick.cast.cast_number }}</a>
 </h2>

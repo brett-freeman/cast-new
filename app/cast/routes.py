@@ -89,6 +89,7 @@ def create_cast():
 		cast = Cast()
 		form.to_model(cast)
 		cast.host = User.query.get(form.host.data)
+		cast.cast_number = form.cast_number.data
 
 		db.session.add(cast)
 		db.session.commit()
@@ -114,6 +115,7 @@ def edit_cast(id=None):
 	if current_user.is_admin or cast.host.id == current_user.id:
 		form = CastForm()
 		form.host.choices = [ (user.id, user.username) for user in User.query.all()]
+		del form.cast_number
 		if form.validate_on_submit():
 			form.to_model(cast)
 			cast.host = User.query.get(form.host.data)
