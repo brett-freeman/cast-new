@@ -13,7 +13,7 @@
 	<h3>Picks ({{ user.picks.count() }} total)</h3>
 	{% for pick in user.picks|sort(attribute='id', reverse=True) %}
 		<h3 class="page-header"><small>On cast {{ pick.cast.cast_number }}</small></h3>
-		{{ build_pick(pick, moment) }}
+		{{ build_pick(pick, moment, current_user) }}
 	{% endfor %}
 </ul>
 {% endblock %}

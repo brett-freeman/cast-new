@@ -5,6 +5,6 @@
 {% from "cast/_macros.html" import build_cast_header %}
 {% from "cast/_macros.html" import build_picks %}
 {{ build_cast_header(g.next_cast) }}
-{{ build_picks(g.next_cast.picks, moment=moment) }}
+{{ build_picks(g.next_cast.picks, moment=moment, current_user=current_user) }}
 
 {% endblock %}

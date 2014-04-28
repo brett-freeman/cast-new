@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, g
+from flask import render_template, redirect, url_for, flash, g, request
 from flask.ext.login import login_required, current_user
 
 from app.extensions import db
@@ -36,6 +36,19 @@ def pick():
 		return redirect(url_for('cast.index'))
 
 	return render_template('cast/pick.html', form=form)
+
+@cast.route('/edit/pick/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_pick(id=None):
+	if not id:
+		return redirect(url_for('cast.index'))
+
+	pick = Pick.query.get(int(id))
+	if not pick or pick.author.id != current_user.id:
+		flash('Invalid pick.')
+		return redirect(url_for('cast.index'))
+
+	return 'Edit route.'
 
 @cast.route('/create', methods=['GET', 'POST'])
 @login_required
