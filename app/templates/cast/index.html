@@ -2,8 +2,12 @@
 
 {% block page_content %}
 
-{% from "cast/_macros.html" import build_cast_header, build_picks %}
+{% from "cast/_macros.html" import build_cast_header, build_pick %}
+
 {{ build_cast_header(g.next_cast, current_user=current_user) }}
-{{ build_picks(g.next_cast.picks, moment=moment, current_user=current_user) }}
+
+{% for pick in g.next_cast.picks %}
+	{{ build_pick(pick, moment=moment, current_user=current_user) }}
+{% endfor %}
 
 {% endblock %}

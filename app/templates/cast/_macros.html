@@ -1,33 +1,3 @@
-{% macro build_picks(picks, moment, current_user) %}
-<ul class="list-group">
-{% for pick in picks|sort(attribute='id', reverse=True) %}
-	<li class="list-group-item">
-
-	<div class="media">
-		<div class="col-md-3">
-			<a class="thumbnail pull-left" href="#">
-				<img src="{{ pick.picture_url if pick.picture_url else 'http://bongcast.com/static/img/unknown-album.png' }}" class="media-object" />
-			</a>
-		</div>
-
-		<div class="media-body">
-			<h3 class="media-heading page-header">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}
-	    		{% if current_user.id == pick.author.id or current_user.is_admin %}
-	    			<a class="btn btn-default pull-right" href="{{ url_for('cast.edit_pick', id=pick.id) }}">edit</a>
-	    		{% endif %}
-    		</h3>
-
-    		{{ pick.description }}
-    		<p style="margin-top: 10%; position: relative;">
-	    		<small>Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
-    		</p>
-  		</div>
-	</div>
-
-	</li>
-{% endfor %}
-</ul>
-{% endmacro %}
 
 {% macro build_pick(pick, moment, current_user) %}
 <li class="list-group-item">
@@ -40,14 +10,13 @@
 		</div>
 
 		<div class="media-body">
-			<h3 class="media-heading page-header">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}
+			<h3 class="media-heading">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}
 	    		{% if current_user.id == pick.author.id or current_user.is_admin %}
 	    			<a class="btn btn-default pull-right" href="{{ url_for('cast.edit_pick', id=pick.id) }}">edit</a>
 	    		{% endif %}
     		</h3>
-
-    		{{ pick.description }}
-    		<p style="margin-top: 10%; position: relative;">
+    		<dd style="padding-top: 15px;">{{ pick.description }}</dd>
+    		<p style="padding-top: 10%; position: relative;">
 	    		<small>Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
     		</p>
   		</div>

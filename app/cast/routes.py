@@ -13,8 +13,8 @@ from datetime import datetime
 def before_request():
 	g.next_cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 
-@cast.route('/', endpoint='index')
 @cast.route('/cast/', endpoint='index')
+@cast.route('/', endpoint='index')
 @cast.route('/cast/<int:cast_number>/', endpoint='view_cast')
 def index(cast_number=None):
 	if cast_number:
@@ -83,9 +83,7 @@ def create_cast():
 	if form.validate_on_submit():
 		cast = Cast()
 		form.to_model(cast)
-
-		host = User.query.get(form.host.data)
-		cast.host = host
+		cast.host = User.query.get(form.host.data)
 
 		db.session.add(cast)
 		db.session.commit()
@@ -113,6 +111,7 @@ def edit_cast(id=None):
 		form.host.choices = [ (user.id, user.username) for user in User.query.all()]
 		if form.validate_on_submit():
 			form.to_model(cast)
+			cast.host = User.query.get(form.host.data)
 			try:
 				db.session.add(cast)
 				db.session.commit()
