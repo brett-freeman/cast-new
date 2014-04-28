@@ -62,6 +62,7 @@ def edit_pick(id=None):
 		form = PickForm()
 		if form.validate_on_submit():
 			form.to_model(pick)
+			pick.last_edited = datetime.utcnow()
 			try:
 				db.session.add(pick)
 				db.session.commit()

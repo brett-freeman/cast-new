@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from config import config
 from app.extensions import bootstrap, login_manager, moment
+import os
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -18,5 +19,9 @@ def create_app(config_name):
 	bootstrap.init_app(app)
 	login_manager.init_app(app)
 	moment.init_app(app)
+
+	@app.route('/robots.txt')
+	def robots_from_static():
+		return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
 
 	return app
