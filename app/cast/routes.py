@@ -14,7 +14,8 @@ def before_request():
 	g.next_cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 
 @cast.route('/', endpoint='index')
-@cast.route('/cast/<int:cast_number>', endpoint='view_cast')
+@cast.route('/cast/', endpoint='index')
+@cast.route('/cast/<int:cast_number>/', endpoint='view_cast')
 def index(cast_number=None):
 	if cast_number:
 		cast = Cast.query.filter_by(cast_number=int(cast_number)).first_or_404()
@@ -23,7 +24,7 @@ def index(cast_number=None):
 	cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 	return render_template('cast/index.html', cast=cast)
 
-@cast.route('/pick', methods=['GET', 'POST'])
+@cast.route('/pick/', methods=['GET', 'POST'])
 @login_required
 def pick():
 	form = PickForm()
@@ -43,7 +44,7 @@ def pick():
 
 	return render_template('cast/pick.html', form=form)
 
-@cast.route('/edit/pick/<int:id>', methods=['GET', 'POST'])
+@cast.route('/pick/<int:id>/edit/', methods=['GET', 'POST'])
 @login_required
 def edit_pick(id=None):
 	if not id:
@@ -73,7 +74,7 @@ def edit_pick(id=None):
 		return redirect(url_for('cast.index'))
 	return redirect(url_for('cast.index'))
 
-@cast.route('/create', methods=['GET', 'POST'])
+@cast.route('/create/', methods=['GET', 'POST'])
 @login_required
 def create_cast():
 	form = CastForm()
@@ -96,7 +97,7 @@ def create_cast():
 
 	return render_template('cast/create.html', form=form)
 
-@cast.route('/edit/cast/<int:id>', methods=['GET', 'POST'])
+@cast.route('/cast/<int:id>/edit/', methods=['GET', 'POST'])
 @login_required
 def edit_cast(id=None):
 	if not id:
@@ -129,8 +130,8 @@ def edit_cast(id=None):
 
 
 
-@cast.route('/user')
-@cast.route('/user/<string:username>', endpoint='user', methods=['GET', 'POST'])
+@cast.route('/user/')
+@cast.route('/user/<string:username>/', endpoint='user', methods=['GET', 'POST'])
 def profile(username=None):
 	if username:
 		user = User.query.filter_by(username=username).first_or_404()
