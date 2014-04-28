@@ -13,8 +13,8 @@ from datetime import datetime
 def before_request():
 	g.next_cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 
-@cast.route('/cast/', endpoint='index')
 @cast.route('/', endpoint='index')
+@cast.route('/cast/', endpoint='view_next_cast')
 @cast.route('/cast/<int:cast_number>/', endpoint='view_cast')
 def index(cast_number=None):
 	if cast_number:
@@ -23,6 +23,11 @@ def index(cast_number=None):
 
 	cast = Cast.query.order_by(Cast.cast_number.desc()).first()
 	return render_template('cast/index.html', cast=cast)
+
+@cast.route('/cast/all/')
+def view_all_casts():
+	casts = Cast.query.all()
+	return render_template('cast/view_all.html', casts=casts)
 
 @cast.route('/pick/', methods=['GET', 'POST'])
 @login_required
