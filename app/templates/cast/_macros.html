@@ -18,6 +18,18 @@
     		<dd style="padding-top: 15px;">{{ pick.description }}</dd>
     		<p style="padding-top: 10%; position: relative;">
 	    		<small>Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
+
+	    		<div class="dropdown" style="position: absolute;">
+		    		<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-arrow-down"></span> Download Links
+					</button>
+
+					<ul class="dropdown-menu" role="menu">
+    				{% for link in pick.links.split(',') %}
+    					<li><a href="{{ link }}">{{ link }}</a></li>
+    				{% endfor %}
+    				</ul>
+    			</div>
     		</p>
   		</div>
 	</div>

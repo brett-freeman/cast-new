@@ -8,6 +8,7 @@ class PickForm(Form):
 	album = StringField('Album', validators=[Required()])
 	song = StringField('Song', validators=[Required()])
 	description = TextAreaField('Description')
+	links = TextAreaField('Download Links (Separate with commas if more than one)')
 	picture_url = StringField('Picture URL (optional)')
 	submit = SubmitField('Submit!')
 
@@ -16,6 +17,7 @@ class PickForm(Form):
 		self.album.data = pick.album
 		self.song.data = pick.song
 		self.description.data = pick.description
+		self.links.data = pick.links
 		self.picture_url.data = pick.picture_url
 
 	def to_model(self, pick):
@@ -23,6 +25,7 @@ class PickForm(Form):
 		pick.album = self.album.data
 		pick.song = self.song.data
 		pick.description = self.description.data
+		pick.links = self.links.data
 		pick.picture_url = self.picture_url.data
 
 class CastForm(Form):

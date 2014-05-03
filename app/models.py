@@ -30,6 +30,20 @@ class User(UserMixin, db.Model):
     def load_user(user_id):
         return User.query.get(int(user_id))
 
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'is_admin': self.is_admin,
+            'avatar_url': self.avatar_url,
+            'picks': self.to_json_picks
+        }
+
+    @property
+    def to_json_picks(self):
+        return [ pick.to_json for pick in self.picks ]
+
 class Cast(db.Model):
     __tablename__ = 'casts'
     id = db.Column(db.Integer, primary_key=True)
@@ -50,14 +64,28 @@ class Pick(db.Model):
     song = db.Column(db.String(255), index=True)
     description = db.Column(db.Text)
     picture_url = db.Column(db.String(1024))
-    waffles_link = db.Column(db.String(1024))
-    what_link = db.Column(db.String(1024))
-    other_link = db.Column(db.String(1024))
+    links = db.Column(db.Text)
     last_edited = db.Column(db.DateTime)
     date_added = db.Column(db.DateTime)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     cast_id = db.Column(db.Integer, db.ForeignKey('casts.id'))
+
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'artist': self.artist,
+            'album': self.album,
+            'song': self.song,
+            'description': self.description,
+            'picture_url': self.picture_url,
+            'links': self.links,
+            'last_edited': self.last_edited,
+            'date_added': self.date_added,
+            'author_id': self.user_id,
+            'cast_id': self.cast_id
+        }
 
 class Link(db.Model):
     __bind_key__ = 'links'
