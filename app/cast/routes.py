@@ -79,6 +79,26 @@ def edit_pick(id=None):
 		return redirect(url_for('cast.index'))
 	return redirect(url_for('cast.index'))
 
+@cast.route('/pick/<int:id>/delete/', methods=['GET', 'POST'])
+@login_required
+def delete_pick(id=None):
+	if not id:
+		return redirect(url_for('cast.index'))
+
+	pick = Pick.query.get(int(id))
+	if not pick:
+		flash('Invalid pick.')
+		return redirect(url_for('cast.index'))
+	if current_user.is_admin or pick.author.id == current_user.id:
+		try:
+			db.session.delete(pick)
+			db.session.commit()
+		except:
+			flash('Couldn\'t delete pick')
+		flash('Pick deleted')
+	return redirect(url_for('cast.index'))	
+
+
 @cast.route('/create/', methods=['GET', 'POST'])
 @login_required
 def create_cast():
@@ -133,8 +153,6 @@ def edit_cast(id=None):
 		flash('Invalid permissions')
 		return redirect(url_for('cast.index'))
 	return redirect(url_for('cast.index'))
-
-
 
 @cast.route('/user/')
 @cast.route('/user/<string:username>/', endpoint='user', methods=['GET', 'POST'])

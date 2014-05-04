@@ -2,7 +2,7 @@
 
 {% block page_content %}
 <div class=" row page-header">
-	<img class="img-responsive img-rounded pull-left" style="margin-right: 10px;" src="{{ user.avatar_url if user.avatar_url else '/static/img/default_avatar.jpg' }}" />
+	<img class="img-rounded pull-left" style="margin-right: 10px; max-height: 200px;" src="{{ user.avatar_url if user.avatar_url else '/static/img/default_avatar.jpg' }}" />
 	<h1>
 	{{ user.username }}
 	</h1>

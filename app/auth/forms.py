@@ -14,3 +14,13 @@ class LoginForm(Form):
 	password = PasswordField('Password', validators=[Required()])
 	remember_me = BooleanField('Keep me logged in')
 	submit = SubmitField('Login')
+
+class ChangePasswordForm(Form):
+	password = PasswordField('Current Password', validators=[Required()])
+	new_password = PasswordField('New Password', [Required(), Length(1, 128), EqualTo('confirm', message='Passwords must match')])
+	confirm = PasswordField('Repeat New Password')
+	submit = SubmitField('Confirm')
+
+class ChangeAvatarForm(Form):
+	avatar_url = StringField('Avatar URL', validators=[Required()])
+	submit = SubmitField('Confirm')

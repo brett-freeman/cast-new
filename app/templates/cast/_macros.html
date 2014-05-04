@@ -13,6 +13,7 @@
 			<h3 class="media-heading" style="display: inline;">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}
 	    		{% if current_user.id == pick.author.id or current_user.is_admin %}
 	    			<a class="btn btn-default pull-right" href="{{ url_for('cast.edit_pick', id=pick.id) }}">edit</a>
+	    			<a class="btn btn-default pull-right" href="{{ url_for('cast.delete_pick', id=pick.id) }}">delete</a>
 	    		{% endif %}
     		</h3>
     		<div class="dropdown pull-right" style="display: inline-block; padding-right: 5px;">

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div style="width: 50%; display: inline-block; padding-right: 10px;" class="pull-left">
+<h2 class="page-header">Change password</h2>
+	{{ wtf.quick_form(password_form) }}
+</div>
+<div style="width: 50%; display: inline-block;">
+<h2 class="page-header">Change avatar</h2>
+	{{ wtf.quick_form(avatar_form) }}
+</div>
+{% endblock %}
