@@ -27,7 +27,7 @@
 				</ul>
 			</div>
     		<div>
-	    		<small>Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
+	    		<span style="padding-left: 10px;"></span><small> Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
     		</div>
     		<dd style="padding-top: 15px;">{{ pick.description }}</dd>
   		</div>
