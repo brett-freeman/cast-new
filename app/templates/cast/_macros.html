@@ -16,6 +16,7 @@
 	    			<a class="btn btn-default pull-right" href="{{ url_for('cast.delete_pick', id=pick.id) }}">delete</a>
 	    		{% endif %}
     		</h3>
+    		{% if pick.links %}
     		<div class="dropdown pull-right" style="display: inline-block; padding-right: 5px;">
 	    		<button type="button" class="btn btn-default" data-toggle="dropdown">
 					<span class="glyphicon glyphicon-arrow-down"></span> Download Links
@@ -27,6 +28,7 @@
 				{% endfor %}
 				</ul>
 			</div>
+			{% endif %}
     		<div>
 	    		<span style="padding-left: 10px;"></span><small> Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
     		</div>
