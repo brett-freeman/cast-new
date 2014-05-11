@@ -8,7 +8,11 @@
 	{{ wtf.quick_form(password_form) }}
 </div>
 <div style="width: 50%; display: inline-block;">
-<h2 class="page-header">Change avatar</h2>
+<h2 class="page-header">
+	<img class="img-rounded"
+		src="{{ current_user.avatar_url if current_user.avatar_url else '/static/img/default_avatar.jpg' }} "
+		style="max-width: 100px;" />
+	Change avatar</h2>
 	{{ wtf.quick_form(avatar_form) }}
 </div>
 {% endblock %}

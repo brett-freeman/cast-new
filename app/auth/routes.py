@@ -76,5 +76,7 @@ def settings():
 			return redirect(url_for('auth.settings'))
 		else:
 			flash('Incorrect current password, try again.')
-
+			
+	if current_user.avatar_url:
+		avatar_form.avatar_url.data = current_user.avatar_url
 	return render_template('auth/settings.html', password_form=password_form, avatar_form=avatar_form)
