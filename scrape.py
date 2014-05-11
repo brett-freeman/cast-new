@@ -4,8 +4,8 @@ from app.models import Cast, Pick, User
 import re
 url_finder = re.compile(r'(?u)(?:http|https|ftp)(?:://\S+)')
 
-def parse_picks(file_name, cast_number):
-	content = [line.rstrip() for line in open(file_name) if line]
+def parse_picks(cast_number):
+	content = [line.rstrip() for line in open('cast_data/%s.data' % str(cast_number)) if line]
 	picks = []
 
 	for l in content:
@@ -22,13 +22,15 @@ def parse_picks(file_name, cast_number):
 			pick['link'] = link
 		elif l.startswith('[[User:'):
 			pick['user'] = l.split('|')[0][7:]
+		elif l != '' or '\n':
+			pick['description'] += '%s\n' % l
 		else:
-			pick['description'] += l
+			pass
 
 	return picks
 
-def add_cast(cast_number, file_name='picks.data'):
-	picks = parse_picks(file_name, cast_number)
+def add_cast(cast_number):
+	picks = parse_picks(cast_number)
 	host = User.query.filter_by(username='brett').first()
 	cast = Cast.query.filter_by(cast_number=cast_number).first()
 
@@ -45,7 +47,7 @@ def add_cast(cast_number, file_name='picks.data'):
 			links = 'None'
 
 		if 'user' in pick:
-			description += '(Original wiki user - ' + pick['user'] + ')'
+			description = '(Original wiki user - %s) %s' % (pick['user'], description)
 
 		new_pick = Pick(artist=pick['artist'], album=pick['album'], song=pick['song'],
 						cast_id=cast.id, user_id=wikiuser.id, links=links,
@@ -57,3 +59,19 @@ def add_cast(cast_number, file_name='picks.data'):
 			print(e)
 
 		print('Pick added.')
+
+def make_all_casts():
+	host = User.query.filter_by(username='brett').first()
+
+	i = 1
+	while i < 65:
+		new_cast = Cast(cast_number=i, host_id=host.id, time='10PM BST, 5PM EST, 2PM Pacifica', date='TBD',
+						description='This is a scrape of the wiki page for cast %s' % str(i))
+		db.session.add(new_cast)
+		db.session.commit()
+		print('Cast %s created' % str(i))
+
+		add_cast(i)
+		print('Cast %s populated.' % str(i))
+		
+		i = i+1

@@ -3,11 +3,9 @@
 <li class="list-group-item">
 
 	<div class="media">
-		<div class="col-md-3 col-xs-5">
-			<a class="thumbnail pull-left" href="#">
-				<img src="{{ pick.picture_url if pick.picture_url else 'http://bongcast.com/static/img/unknown-album.png' }}" class="media-object" />
-			</a>
-		</div>
+		<a class="thumbnail pull-left" href="#">
+			<img src="{{ pick.picture_url if pick.picture_url else 'http://bongcast.com/static/img/unknown-album.png' }}" class="media-object" style="max-width: 200px;"/>
+		</a>
 
 		<div class="media-body" style="overflow: visible;">
 			<h3 class="media-heading" style="display: inline;">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}
@@ -32,24 +30,23 @@
     		<div>
 	    		<span style="padding-left: 10px;"></span><small> Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
     		</div>
-    		<dd style="padding-top: 15px;">{{ pick.description }}</dd>
+    		<dd style="padding-top: 15px;">{{ pick.description | nl2br | safe }}</dd>
   		</div>
 	</div>
 
 	</li>
 {% endmacro %}
 
-{% macro build_cast_header(cast, current_user) %}
-{% if cast %}
+{% macro build_cast_header(cast, current_user, list=False) %}
+{% if cast and not list %}
 <div class="jumbotron">
 	<h2><strong>Cast <a href="{{ url_for('cast.view_cast', cast_number=cast.cast_number) }}">{{ cast.cast_number }}</a></strong></h2>
 			<h2><p style="margin-left: 60px; font-size: 12pt;">hosted by <a href="{{ url_for('cast.user', username=cast.host.username) }}">{{ cast.host.username }}</a> <strong>on</strong> {{ cast.date }} <strong>at</strong> {{ cast.time }} <strong>with</strong> {{ cast.picks.count() }} picks</p></h2>
 	<div class="media">
-		<div class="col-xs-6 col-md-3">
 		<a href="#" class="thumbnail pull-left">
-			<img src="{{ cast.picture_url if cast.picture_url else '/static/img/unknown-album.png' }}" />
+			<img src="{{ cast.picture_url if cast.picture_url else '/static/img/unknown-album.png' }}" 
+				style="max-width: 200px;" />
 		</a>
-		</div>
 		<p>{{ cast.description }}</p>
 		<p>
 		{% if cast.id == g.next_cast.id %}
@@ -62,4 +59,10 @@
 	</div>
 </div>
 {% endif %}
+{% if cast and list %}
+  <a href="{{ url_for('cast.view_cast', cast_number=cast.cast_number) }}" class="list-group-item">
+    <h4 class="list-group-item-heading">Cast {{ cast.cast_number }} <small>hosted by</small> {{ cast.host.username }} <small>on</small> {{ cast.date }}</h4>
+    <p class="list-group-item-text">{{ cast.description }}</p>
+  </a>
+{%endif %}
 {% endmacro %}

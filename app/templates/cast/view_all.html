@@ -3,9 +3,9 @@
 {% block page_content %}
 
 {% from "cast/_macros.html" import build_cast_header %}
-
+<div class="list-group">
 {% for cast in casts|sort(attribute='cast_number', reverse=True) %}
-	{{ build_cast_header(cast, current_user=current_user) }}
+	{{ build_cast_header(cast, current_user=current_user, list=True) }}
 {% endfor %}
-
+</div>
 {% endblock %}

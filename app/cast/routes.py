@@ -115,7 +115,7 @@ def create_cast():
 		db.session.commit()
 
 		flash('Cast added.')
-		return redirect(url_for('cast.index'))
+		return redirect(url_for('cast.view_cast', cast_number=cast.cast_number))
 	else:
 		form.cast_number.data = g.next_cast.cast_number + 1  if g.next_cast else 1
 
@@ -135,6 +135,8 @@ def edit_cast(id=None):
 	if current_user.is_admin or cast.host.id == current_user.id:
 		form = CastForm()
 		form.host.choices = [ (user.id, user.username) for user in User.query.all()]
+		form.host.choices.insert(0, (cast.host.id, cast.host.username))
+
 		del form.cast_number
 		if form.validate_on_submit():
 			form.to_model(cast)
@@ -146,7 +148,7 @@ def edit_cast(id=None):
 				flash('Unknown error editing cast!')
 				return redirect(url_for('cast.index'))
 			flash('Cast edited')
-			return redirect(url_for('cast.index'))
+			return redirect(url_for('cast.view_cast', cast_number=cast.cast_number))
 		form.from_model(cast)
 		return render_template('/cast/edit_cast.html', form=form, cast=cast)
 	else:

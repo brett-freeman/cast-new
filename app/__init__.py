@@ -19,6 +19,9 @@ def create_app(config_name):
 	bootstrap.init_app(app)
 	login_manager.init_app(app)
 	moment.init_app(app)
+	def nl2br(value):
+		return value.replace('\n','<br>\n')
+	app.jinja_env.filters['nl2br'] = nl2br
 
 	@app.route('/robots.txt')
 	def robots_from_static():
