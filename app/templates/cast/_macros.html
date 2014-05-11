@@ -7,15 +7,15 @@
 			<img src="{{ pick.picture_url if pick.picture_url else 'http://bongcast.com/static/img/unknown-album.png' }}" class="media-object" style="max-width: 200px;"/>
 		</a>
 
-		<div class="media-body" style="overflow: visible;">
-			<h3 class="media-heading" style="display: inline;">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}
-	    		{% if current_user.id == pick.author.id or current_user.is_admin %}
-	    			<a class="btn btn-default pull-right" href="{{ url_for('cast.edit_pick', id=pick.id) }}">edit</a>
-	    			<a class="btn btn-default pull-right" href="{{ url_for('cast.delete_pick', id=pick.id) }}">delete</a>
-	    		{% endif %}
+		<div class="media-body" style="overflow: visible; display: inline;">
+			<h3 class="media-heading">{{ pick.song }} <small>by</small> {{ pick.artist }} <small>on</small> {{ pick.album }}
     		</h3>
+    		<span style="display: inline-block;">
+    		<small> Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
+    		<span>&nbsp;</span>
+    		</span>
     		{% if pick.links %}
-    		<div class="dropdown pull-right" style="display: inline-block; padding-right: 5px;">
+    		<div class="dropdown" style="display: inline-block;">
 	    		<button type="button" class="btn btn-default" data-toggle="dropdown">
 					<span class="glyphicon glyphicon-arrow-down"></span> Download Links
 				</button>
@@ -25,11 +25,12 @@
 					<li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
 				{% endfor %}
 				</ul>
+				{% if current_user.id == pick.author.id or current_user.is_admin %}
+	    			<a class="btn btn-default" href="{{ url_for('cast.edit_pick', id=pick.id) }}">edit</a>
+	    			<a class="btn btn-default" href="{{ url_for('cast.delete_pick', id=pick.id) }}">delete</a>
+	    		{% endif %}
 			</div>
 			{% endif %}
-    		<div>
-	    		<span style="padding-left: 10px;"></span><small> Picked by </small><a href="{{ url_for('cast.user', username=pick.author.username) }}">{{ pick.author.username }}</a> <small>on {{ moment(pick.date_added).format('MMMM Do, h:mm:ss a') }}.</small>
-    		</div>
     		<dd style="padding-top: 15px;">{{ pick.description | nl2br | safe }}</dd>
   		</div>
 	</div>
