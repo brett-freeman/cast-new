@@ -6,7 +6,7 @@ from ..models import Cast, Pick
 @api.route('/casts/<int:cast_number>/', methods=['GET'])
 def api_fetch_casts(cast_number=None):
 	if cast_number:
-		cast = Cast.query.filter_by(cast_number=cast_number).first()
+		cast = Cast.query.filter_by(cast_number=cast_number).first_or_404()
 		return jsonify( cast=cast.to_json, 
 					picks=[ pick.to_json for pick in Pick.query.filter(cast.cast_number==cast_number).all() ])
 
