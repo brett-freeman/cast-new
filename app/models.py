@@ -56,8 +56,10 @@ class Cast(db.Model):
     host_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     picks = db.relationship('Pick', backref='cast', lazy='dynamic')
 
+
 class Pick(db.Model):
     __tablename__ = 'picks'
+    __searchable__ = ['artist', 'song', 'album', 'description']
     id = db.Column(db.Integer, primary_key=True)
     artist = db.Column(db.String(255), index=True)
     album = db.Column(db.String(255), index=True)

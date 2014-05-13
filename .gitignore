@@ -5,3 +5,4 @@ __pycache__/*
 .python-version
 *.db
 migrations
+whoosh_index
