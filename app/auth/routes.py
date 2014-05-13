@@ -42,13 +42,19 @@ def register():
 
 	return render_template('auth/register.html', form=form)
 
-@auth.route('/settings/', methods=['GET', 'POST'])
-def settings():
+@auth.route('/settings/', endpoint='settings', methods=['GET', 'POST'])
+@auth.route('/settings/<string:username>', endpoint='edit_user', methods=['GET', 'POST'])
+def settings(username=None):
 	password_form = ChangePasswordForm()
 	avatar_form = ChangeAvatarForm()
-
+	if username and not current_user.is_admin:
+		flash('Incorrect permissions')
+		return redirect(url_for('cast.index'))
 	if avatar_form.validate_on_submit():
-		user = User.query.get(current_user.id)
+		if username:
+			user = User.query.filter_by(username=username).first_or_404()
+		else:
+			user = User.query.get(current_user.id)
 		if user:
 			user.avatar_url = avatar_form.avatar_url.data
 			try:
@@ -58,12 +64,18 @@ def settings():
 				flash('Error changing your avatar url.')
 
 			flash('Avatar url changed.')
-			return redirect(url_for('auth.settings'))
+			if username:
+				return redirect(url_for('auth.edit_user', username=username))
+			else:
+				return redirect(url_for('auth.settings'))
 		else:
 			flash('Weird, no user found...')
 
 	if password_form.validate_on_submit():
-		user = User.query.get(current_user.id)
+		if username:
+			user = User.query.filter_by(username=username).first_or_404()
+		else:
+			user = User.query.get(current_user.id)
 		if user and user.verify_password(password_form.password.data):
 			user.password = password_form.new_password.data
 			try:
@@ -76,7 +88,14 @@ def settings():
 			return redirect(url_for('auth.settings'))
 		else:
 			flash('Incorrect current password, try again.')
-			
-	if current_user.avatar_url:
-		avatar_form.avatar_url.data = current_user.avatar_url
-	return render_template('auth/settings.html', password_form=password_form, avatar_form=avatar_form)
+	if username:
+		user = User.query.filter_by(username=username).first()
+		if user.avatar_url:
+			avatar_form.avatar_url.data = user.avatar_url
+	elif current_user.avatar_url:
+		user = current_user
+		avatar_form.avatar_url.data = user.avatar_url
+	else:
+		user = current_user
+
+	return render_template('auth/settings.html', password_form=password_form, avatar_form=avatar_form, user=user)
