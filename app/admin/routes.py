@@ -7,17 +7,17 @@ from .forms import AnnouncementForm, PickUserForm
 from ..models import Announcement, User
 
 @admin.before_request
+@login_required
 @admin_required
 def admin_before_request():
 	pass
 
 @admin.route('/', methods=['GET', 'POST'])
-@login_required
 def index():
 	announcement_form = AnnouncementForm()
 	pick_user_form = PickUserForm()
 	pick_user_form.user.choices = [ (user.id, user.username) for user in User.query.all()]
-	
+
 	if announcement_form.validate_on_submit():
 		msg = Announcement(message=announcement_form.message.data)
 		db.session.add(msg)
@@ -32,7 +32,6 @@ def index():
 	return render_template('admin/index.html', announcement_form=announcement_form, pick_user_form=pick_user_form)
 
 @admin.route('/announcement/<int:id>/delete')
-@login_required
 def delete_announcement(id):
 	msg = Announcement.query.get(id)
 	if not msg:

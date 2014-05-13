@@ -5,12 +5,12 @@
 	<img class="img-rounded pull-left" style="margin-right: 10px; max-height: 200px;" src="{{ user.avatar_url if user.avatar_url else '/static/img/default_avatar.jpg' }}" />
 	<h1>
 	{{ user.username }}
+	</h1>
 	{% if current_user.is_admin %}
 	<a href="{{ url_for('auth.edit_user', username=user.username) }}" class="btn btn-default">Edit user</a>
 	{% elif current_user.id == user.id %}
 	<a href="{{ url_for('auth.settings') }}" class="btn btn-default">Settings</a>
 	{% endif %}
-	</h1>
 </div>
 
 {% from "cast/_macros.html" import build_pick %}
