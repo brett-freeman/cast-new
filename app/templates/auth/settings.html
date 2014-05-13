@@ -3,6 +3,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
+<h2 class="page-header">Settings for {{ user.username }}</h2>
 <div style="width: 50%; display: inline-block; padding-right: 10px;" class="pull-left">
 <h2 class="page-header">Change password</h2>
 	{{ wtf.quick_form(password_form) }}
