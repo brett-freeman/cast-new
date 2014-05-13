@@ -2,8 +2,6 @@ from datetime import datetime
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.extensions import db, login_manager
-import app
-import flask.ext.whooshalchemy as whooshalchemy
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -107,5 +105,3 @@ class Link(db.Model):
             'nickname': self.nickname,
             'last_sent': self.last_sent
         }
-
-whooshalchemy.whoosh_index(app, Pick)
