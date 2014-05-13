@@ -3,7 +3,7 @@ from flask.ext.login import login_required, current_user
 
 from app.extensions import db
 from . import cast
-from .forms import PickForm, CastForm
+from .forms import PickForm, CastForm, SearchForm
 from .decorators import admin_required
 from ..models import User, Cast, Pick
 
@@ -164,3 +164,15 @@ def profile(username=None):
 		return render_template('cast/user.html', user=user)
 
 	return redirect(url_for('cast.index'))
+
+@cast.route('/search/', endpoint='search_redirect', methods=['GET', 'POST'])
+@cast.route('/search/<string:query>', endpoint='search')
+def search(query=None):
+	search_form = SearchForm(request.form)
+	if search_form.search.data:
+		return redirect(url_for('cast.search', query=search_form.search.data))
+
+	results = None
+	if query:
+		results = Pick.query.whoosh_search(query).all()
+	return render_template('cast/search.html', results=results)
