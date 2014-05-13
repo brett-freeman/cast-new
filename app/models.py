@@ -56,6 +56,16 @@ class Cast(db.Model):
     host_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     picks = db.relationship('Pick', backref='cast', lazy='dynamic')
 
+    @property
+    def to_json(self):
+        return {
+            'id': self.id,
+            'time': self.time,
+            'date': self.date,
+            'cast_number': self.cast_number,
+            'description': self.description,
+            'picture_url': self.picture_url
+        }
 
 class Pick(db.Model):
     __tablename__ = 'picks'
