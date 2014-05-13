@@ -44,6 +44,10 @@
 	            <li><a href="{{ url_for('cast.user', username=current_user.username) }}">Profile</a></li>
 	            <li><a href="{{ url_for('auth.settings') }}">Settings</a></li>
 	            <li><a href="{{ url_for('auth.logout') }}">Log out</a></li>
+	            {% if current_user.is_admin %}
+	            <li class="divider"></li>
+	            <li><a href="{{ url_for('admin.index') }}">Admin Panel</a></li>
+	            {% endif %}
 	          </ul>
 	    </li>
 	</ul>
@@ -59,10 +63,12 @@
 
 </nav>
 
-{% for message in get_flashed_messages() %}
+{% for category, message in get_flashed_messages(with_categories=true) %}
 <div class="alert alert-warning">
-	<button type="button" class="close" data-dismiss="alert"></button>
 	{{ message }}
+	{% if category[-12:] == 'announcement' and current_user.is_admin %}
+	<a href="{{ url_for('admin.delete_announcement', id=category[:-12]) }}" class="btn btn-default pull-right">Delete</a>
+	{% endif %}
 </div>
 {% endfor %}
 

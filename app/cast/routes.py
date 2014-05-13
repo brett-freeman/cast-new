@@ -9,10 +9,6 @@ from ..models import User, Cast, Pick
 
 from datetime import datetime
 
-@cast.before_request
-def before_request():
-	g.next_cast = Cast.query.order_by(Cast.cast_number.desc()).first()
-
 @cast.route('/', endpoint='index')
 @cast.route('/cast/', endpoint='view_next_cast')
 @cast.route('/cast/<int:cast_number>', endpoint='view_cast')

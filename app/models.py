@@ -105,3 +105,8 @@ class Link(db.Model):
             'nickname': self.nickname,
             'last_sent': self.last_sent
         }
+
+class Announcement(db.Model):
+    __tablename__ = 'announcements'
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String)

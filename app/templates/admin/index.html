@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div style="width: 50%; display: inline-block; padding-right: 10px;" class="pull-left">
+<h2 class="page-header">Make a global announcement</h2>
+	{{ wtf.quick_form(announcement_form) }}
+</div>
+{% endblock %}
