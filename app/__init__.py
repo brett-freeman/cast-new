@@ -2,7 +2,6 @@ from flask import Flask, send_from_directory
 from config import config
 from app.extensions import bootstrap, login_manager, moment
 from app.models import Pick
-import flask.ext.whooshalchemy as whooshalchemy
 import os
 
 def create_app(config_name):
@@ -28,7 +27,5 @@ def create_app(config_name):
 	@app.route('/robots.txt')
 	def robots_from_static():
 		return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
-
-	whooshalchemy.whoosh_index(app, Pick)
 
 	return app
