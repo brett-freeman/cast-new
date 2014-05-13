@@ -50,5 +50,5 @@ class CastForm(Form):
 		cast.picture_url = self.picture_url.data
 
 class SearchForm(Form):
-    search = StringField('Search', validators = [Required()])
+    search = StringField('Search')
     submit = SubmitField('Submit!')

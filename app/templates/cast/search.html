@@ -5,9 +5,11 @@
 {% from "cast/_macros.html" import build_pick %}
 
 {% for pick in results %}
-	<h3 class="page-header"><small>On cast {{ pick.cast.cast_number }}</small></h3>
+	<h3><small>On cast {{ pick.cast.cast_number }}</small></h3>
 	{{ build_pick(pick, moment, current_user) }}
 {% endfor %}
 
+{% else %}
+<h2 class="page-header">No results found.</h2>
 {% endif %}
 {% endblock %}

@@ -15,8 +15,8 @@ def before_request():
 
 @cast.route('/', endpoint='index')
 @cast.route('/cast/', endpoint='view_next_cast')
-@cast.route('/cast/<int:cast_number>/', endpoint='view_cast')
-@cast.route('/cast/<string:view_all>/', endpoint='view_all_casts')
+@cast.route('/cast/<int:cast_number>', endpoint='view_cast')
+@cast.route('/cast/<string:view_all>', endpoint='view_all_casts')
 def index(cast_number=None, view_all=None):
 	if cast_number:
 		cast = Cast.query.filter_by(cast_number=int(cast_number)).first_or_404()
@@ -156,14 +156,10 @@ def edit_cast(id=None):
 		return redirect(url_for('cast.index'))
 	return redirect(url_for('cast.index'))
 
-@cast.route('/user/')
-@cast.route('/user/<string:username>/', endpoint='user', methods=['GET', 'POST'])
+@cast.route('/user/<string:username>', endpoint='user', methods=['GET', 'POST'])
 def profile(username=None):
-	if username:
-		user = User.query.filter_by(username=username).first_or_404()
-		return render_template('cast/user.html', user=user)
-
-	return redirect(url_for('cast.index'))
+	user = User.query.filter_by(username=username).first_or_404()
+	return render_template('cast/user.html', user=user)
 
 @cast.route('/search/', endpoint='search_redirect', methods=['GET', 'POST'])
 @cast.route('/search/<string:query>', endpoint='search')
