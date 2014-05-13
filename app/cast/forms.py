@@ -52,3 +52,8 @@ class CastForm(Form):
 class SearchForm(Form):
     search = StringField('Search')
     submit = SubmitField('Submit!')
+
+class DeleteCastForm(Form):
+	cast_number = PasswordField('Cast Number', [Required(), Length(1, 128), EqualTo('confirm', message='Numbers must match.')])
+	confirm = PasswordField('Repeat Number')
+	submit = SubmitField('Delete forever!')

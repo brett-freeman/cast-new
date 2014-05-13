@@ -3,7 +3,7 @@ from flask.ext.login import login_required, current_user
 
 from app.extensions import db
 from . import cast
-from .forms import PickForm, CastForm, SearchForm
+from .forms import PickForm, CastForm, SearchForm, DeleteCastForm
 from .decorators import admin_required
 from ..models import User, Cast, Pick
 
@@ -98,6 +98,34 @@ def delete_pick(id=None):
 		flash('Pick deleted')
 	return redirect(url_for('cast.index'))	
 
+@cast.route('/cast/<int:id>/delete/', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def delete_cast(id=None):
+	if not id:
+		return redirect(url_for('cast.index'))
+	cast = Cast.query.get(id)
+	if not cast:
+		flash('Invalid cast.')
+		return redirect(url_for('cast.index'))
+
+	form = DeleteCastForm()
+
+	if form.validate_on_submit():
+		if current_user.is_admin and int(form.confirm.data) == int(cast.cast_number):		
+			for pick in cast.picks:
+				db.session.delete(pick)
+			db.session.delete(cast)
+			try:
+				db.session.commit()
+			except Exception as e:
+				print(e)
+			flash('Cast deleted')
+			return redirect(url_for('cast.index'))
+		else:
+			flash('Wrong cast number')
+
+	return render_template('cast/delete.html', form=form, cast=cast)
 
 @cast.route('/create/', methods=['GET', 'POST'])
 @login_required

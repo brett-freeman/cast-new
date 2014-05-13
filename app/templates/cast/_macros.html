@@ -56,6 +56,9 @@
 		{% if current_user.is_admin or current_user.id == cast.host.id %}
 			<a href="{{ url_for('cast.edit_cast', id=cast.id) }}" class="btn btn-primary btn-lg" role="button">Edit</a>
 		{% endif %}
+		{% if current_user.is_admin %}
+			<a href="{{ url_for('cast.delete_cast', id=cast.id) }}" class="btn btn-primary btn-lg" role="button">Delete</a>
+		{% endif %}
 		</p>
 	</div>
 </div>
