@@ -101,6 +101,7 @@ def delete_pick(id=None):
 
 @cast.route('/create/', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def create_cast():
 	form = CastForm()
 	form.host.choices = [ (user.id, user.username) for user in User.query.all()]
