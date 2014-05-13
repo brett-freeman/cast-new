@@ -61,17 +61,18 @@ def add_cast(cast_number):
 		print('Pick added.')
 
 def make_all_casts():
-	host = User.query.filter_by(username='brett').first()
+	host = User.query.filter_by(username='WikiUser').first()
 
-	i = 1
+	i = 50
 	while i < 65:
 		new_cast = Cast(cast_number=i, host_id=host.id, time='10PM BST, 5PM EST, 2PM Pacifica', date='TBD',
-						description='This is a scrape of the wiki page for cast %s' % str(i))
+						description='This is a scrape of the wiki page for cast %s. All information may \
+						not be accurate. http://420wiki.pithed.org/index.php?title=Bongcast%s' % (str(i), str(i)))
 		db.session.add(new_cast)
 		db.session.commit()
 		print('Cast %s created' % str(i))
 
 		add_cast(i)
 		print('Cast %s populated.' % str(i))
-		
+
 		i = i+1
