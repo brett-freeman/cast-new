@@ -15,7 +15,7 @@ djApp.config(['$routeProvider',
 
 djApp.controller('sortableController', ['$scope', '$http', '$routeParams', 
 function ($scope, $http, $routeParams) {
-	var apiUrl = 'http://localhost:5000/api/casts/' + $routeParams.cast;
+	var apiUrl = '../api/casts/' + $routeParams.cast;
 	$http.get(apiUrl).success(function(data) {
 		$scope.picks = data.picks;
 
