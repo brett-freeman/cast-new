@@ -1,6 +1,6 @@
 <span ng-model="positiondata">New position: {{positiondata}}</span>
 <ul ui-sortable="sortableOptions" ng-model="picks">
 <li ng-repeat="pick in picks">
-#{{pick.dj_list_position}} {{pick.artist}}
+{{$index}} {{pick.artist}}
 </li>
 </ul>

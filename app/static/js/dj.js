@@ -25,8 +25,8 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 			});
 			$http.put('../api/dj/update_order/' + $stateParams.castId, pick_order).success(function(data) {
 				console.log(data);
-				$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
 			});
+			$scope.positiondata = '';
 		},
 		change: function(e, ui) {
 			$scope.positiondata = ui.placeholder.index();
