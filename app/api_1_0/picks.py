@@ -24,5 +24,5 @@ def update_order(cast_number):
 					db.session.add(pick)
 					db.session.commit()
 				except Exception as e:
-					return 'Yikes'
+					return 'Yikes %s' % str(e)
 	return jsonify( picks=[pick.to_json for pick in picks] )
