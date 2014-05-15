@@ -20,11 +20,12 @@ def update_order(cast_number):
 		for pick_order in picks_order:
 			if pick.id == pick_order['id'] and pick.dj_list_position != pick_order['position']:
 				pick.dj_list_position = pick_order['position']
-				try:
-					db.session.add(pick)
-					db.session.commit()
-				except Exception as e:
-					return 'Yikes %s' % str(e)
+				db.session.add(pick)
 			else:
 				pass
+	try:
+		db.session.commit()
+	except Exception as e:
+		return 'Yikes %s' % str(e)
+		
 	return jsonify( picks=[pick.to_json for pick in cast.picks] )
