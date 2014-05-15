@@ -23,7 +23,7 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 					position: $scope.picks.indexOf(i) 
 				};
 			});
-			$http.post('../api/dj/update_order/' + $stateParams.castId, pick_order).success(function(data) {
+			$http.put('../api/dj/update_order/' + $stateParams.castId, pick_order).success(function(data) {
 				console.log(data);
 				$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
 			});

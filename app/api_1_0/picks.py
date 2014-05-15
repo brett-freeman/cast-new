@@ -12,7 +12,7 @@ def api_fetch_picks(id=None):
 	return jsonify( picks=[pick.to_json for pick in Pick.query.all()] )
 
 
-@api.route('/dj/update_order/<int:cast_number>', methods=['POST', 'GET'])
+@api.route('/dj/update_order/<int:cast_number>', methods=['PUT', 'GET'])
 def update_order(cast_number):
 	picks_order = request.get_json()
 	picks = Pick.query.join(Pick.cast).filter(Cast.cast_number==cast_number).order_by(Pick.dj_list_position.desc()).all()
