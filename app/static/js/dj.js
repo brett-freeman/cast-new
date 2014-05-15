@@ -1,36 +1,32 @@
-var djApp = angular.module('djApp', ['ngRoute', 'ui.sortable']);
+var djApp = angular
+.module('djApp', ['ui.router', 'ui.sortable'])
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+	$urlRouterProvider.otherwise('/');
+	
+	$stateProvider
+	.state('index', {
+		url: '/:castId',
+		templateUrl: '../static/js/templates/dj.html',
+		controller: 'sortableCtrl'
+	})
+}]);
 
-djApp.config(['$routeProvider',
-	function($routeProvider) {
-		$routeProvider
-			.when('/', {
-				templateUrl: '../static/js/templates/dj.html',
-				controller: 'sortableController'
-			})
-			.otherwise({
-				redirectTo: '/'
-			});
-	}
-]);
-
-djApp.controller('sortableController', ['$scope', '$http', '$routeParams', 
-function ($scope, $http, $routeParams) {
-	var apiUrl = '../api/casts/' + $routeParams.cast;
-	$http.get(apiUrl).success(function(data) {
-		$scope.picks = data.picks;
-
+djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', function($scope, $http, orderByFilter, $stateParams) {
+	$http.get('../api/casts/' + $stateParams.castId).success(function(data) {
+		$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
 	});
-
 	$scope.sortableOptions = {
-		update: function(e, ui) {
-			ui.item.startPos = ui.item.index();
-		},
 		stop: function(e, ui) {
-			$scope.positionData = 
-			'Cast ' + $routeParams.cast + 
-			' Pick ' + ui.item.context.id + 
-			' Start pos ' + ui.item.startPos + 
-			' End pos ' + ui.item.index();
+			var pick_order = $scope.picks.map(function(i) {
+				return { 
+					id: i.id, 
+					position: $scope.picks.indexOf(i) 
+				};
+			});
+			$http.put('../api/dj/update_order/' + $stateParams.castId, pick_order).success(function(data) {
+				console.log(data);
+				$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
+			});
 		}
 	};
 }]);

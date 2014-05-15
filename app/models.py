@@ -71,6 +71,7 @@ class Pick(db.Model):
     __tablename__ = 'picks'
     __searchable__ = ['artist', 'song', 'album', 'description']
     id = db.Column(db.Integer, primary_key=True)
+    dj_list_position = db.Column(db.Integer)
     artist = db.Column(db.String(255), index=True)
     album = db.Column(db.String(255), index=True)
     song = db.Column(db.String(255), index=True)
@@ -96,7 +97,8 @@ class Pick(db.Model):
             'last_edited': self.last_edited,
             'date_added': self.date_added,
             'author_id': self.user_id,
-            'cast_id': self.cast_id
+            'cast_id': self.cast_id,
+            'dj_list_position': self.dj_list_position
         }
 
 class Link(db.Model):

@@ -1,6 +1,5 @@
-<p>{{ positionData }}</p>
 <ul ui-sortable="sortableOptions" ng-model="picks">
-  <li ng-repeat="pick in picks" id="{{ pick.id }}">
-    {{ pick.artist }}
-  </li>
+<li ng-repeat="pick in picks">
+{{pick.artist}} {{pick.dj_list_position}}
+</li>
 </ul>

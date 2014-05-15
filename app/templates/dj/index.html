@@ -3,9 +3,11 @@
 
 {% block scripts %}
 {{ super() }}
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
-<script type="text/javascript" src="https://code.angularjs.org/1.2.16/angular-route.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+<script src="//code.angularjs.org/1.2.4/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+
 <script type="text/javascript" src="/static/js/sortable.js"></script>
 <script type="text/javascript" src="/static/js/dj.js"></script>
 {% endblock %}
@@ -14,6 +16,6 @@
 <h2 class="page-header">DJ</h2>
 
 <div ng-app="djApp">
-<div ng-view></div>
+<div ui-view></div>
 </div>
 {% endblock %}
