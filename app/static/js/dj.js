@@ -27,6 +27,10 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 				console.log(data);
 				$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
 			});
+		},
+		change: function(e, ui) {
+			$scope.positiondata = ui.placeholder.index();
+			$scope.$apply();
 		}
 	};
 }]);
