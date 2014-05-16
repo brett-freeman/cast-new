@@ -31,6 +31,13 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		change: function(e, ui) {
 			$scope.positiondata = ui.placeholder.index();
 			$scope.$apply();
-		}
+		},
+		placeholder: 'sortable-placeholder',
+		helper: 'clone',
+		opacity: '0.5',
+		tolerance: 'pointer',
+		revert: true,
+		axis: 'y'
+
 	};
 }]);
