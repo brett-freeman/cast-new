@@ -74,7 +74,7 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		});
 	};
 	$scope.toggleView = function() {
-		if ($scope.listView) {
+		if (!$scope.listView) {
 			$scope.currentView = 'Grid';
 		} 
 		else {
