@@ -15,7 +15,7 @@
 			<h3 class="panel-title" ng-class="{'strikethrough': pick.played==true}">{{pick.song}} <br /><small>by</small> {{pick.artist}} <br /><small>on</small> {{pick.album}}</h3>
 			<span ng-click="hide=!hide" class="glyphicon glyphicon-comment pull-right" style="clear: left; margin-top: -30px;"></span>
 		</div>
-		<div ng-class="{'hidden': hide == true}" class="panel-body">
+		<div ng-class="{'hidden': hide == true}" class="panel-body col-md-11 col-lg-11" style="position: absolute; z-index: 9999; background: #ffffff; border: 2px solid #eee;">
 	    	{{pick.description}}
 		</div>
 	</div>
