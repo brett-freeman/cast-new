@@ -42,7 +42,7 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 			}, 2000);
 		},
 		change: function(e, ui) {
-			position = ui.placeholder.index()+1
+			position = ui.placeholder.index()
 			$scope.saveStatus = 'Change to position '+position;
 			$scope.$apply();
 		},

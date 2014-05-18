@@ -6,7 +6,7 @@
 
 {{ build_cast_header(g.next_cast, current_user=current_user) }}
 
-{% for pick in g.next_cast.picks|sort(attribute='id', reverse=True) %}
+{% for pick in g.next_cast.picks|sort(attribute='dj_list_position', reverse=False) %}
 	{{ build_pick(pick, moment=moment, current_user=current_user) }}
 {% endfor %}
 
