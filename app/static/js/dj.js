@@ -53,7 +53,7 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		cursor: 'move',
 		helper: 'clone',
 		appendTo: 'body',
-		zIndex: 10000
+		zIndex: 9999
 
 	};
 	$scope.togglePlayed = function($event, pickId) {

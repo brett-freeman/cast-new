@@ -9,10 +9,14 @@
 }
 .panel-body {
 	position: absolute;
-	z-index: 10000;
+	z-index: 9999;
 	float: left;
-	background: #ffffff;
+	background: #D4D6D6;
 	border: 2px solid #eee;
+	opacity: 0.87;
+	color: #000;
+	line-height: 25px;
+	letter-spacing: 0.1em;
 }
 li {
 	list-style-type: none;
