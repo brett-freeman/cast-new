@@ -1,5 +1,5 @@
 var djApp = angular
-.module('djApp', ['ui.router', 'ui.sortable'])
+.module('djApp', ['ui.router', 'ui.sortable', 'doowb.angular-pusher'])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
 	
@@ -16,7 +16,9 @@ filter('iif', function () {
    };
 });
 
-djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', '$timeout', function($scope, $http, orderByFilter, $stateParams, $timeout) {
+djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', '$timeout', 'Pusher', function($scope, $http, orderByFilter, $stateParams, $timeout, Pusher) {
+	$scope.listView = false;
+	$scope.currentView = 'List';
 	$http.get('../api/casts/' + $stateParams.castId).success(function(data) {
 		$scope.castNumber = $stateParams.castId;
 		$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
@@ -53,6 +55,7 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		tolerance: 'pointer',
 		connectWith: '.list-picks',
 		cursor: 'move',
+		forceHelperSize: true,
 		helper: 'clone',
 		appendTo: 'body',
 		zIndex: 9999
@@ -69,5 +72,14 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 				$scope.saveStatus = '';
 			}, 2000);
 		});
+	};
+	$scope.toggleView = function() {
+		if ($scope.listView) {
+			$scope.currentView = 'Grid';
+		} 
+		else {
+			$scope.currentView = 'List';
+		}
+		$scope.listView = !$scope.listView;
 	};
 }]);

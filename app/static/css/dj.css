@@ -1,6 +1,3 @@
-.sortable-placeholder {
-	border: 1px dotted black;
-}
 .panel-title {
 	font-size: 12px;
 }
@@ -30,7 +27,6 @@
 li {
 	list-style-type: none;
 }
-
 .strikethrough {
 	text-decoration: line-through;
 }

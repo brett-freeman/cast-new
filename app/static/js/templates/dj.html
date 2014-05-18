@@ -1,9 +1,8 @@
 <h2 class="page-header">Cast <a href="../../cast/{{castNumber}}">{{castNumber}}</a> DJ Portal  
 <small ng-class="{'text-danger': saveStatus.slice(0,4) == 'Must'}" ng-model="saveStatus" ng-init="saveStatus='Drag and drop to rearrange'">{{saveStatus}}</small></h2>
-
+<button class="btn btn-default" ng-click="toggleView()">{{currentView}}</button>
 <ul class="list-group row" ui-sortable="sortableOptions" ng-model="picks">
-	<li class="col-md-3 col-lg-3 list-picks" ng-repeat="pick in picks" ng-init="hide=true" 
-	ng-class="{'bg-danger': pick.played==true}">
+	<li ng-class="{'col-md-3 col-lg-3': listView == false, 'bg-danger': pick.played==true}" class="list-picks" ng-repeat="pick in picks" ng-init="hide=true">
 	<h4 ng-class="{'strikethrough': pick.played==true}">
 		<span ng-class="{'strikethrough': pick.played==true}"style="color: #797878; font-size: 18px;">{{$index+1}}. </span>
 		{{pick.username}}'{{pick.username.slice(-1) == 's' | iif : '' : 's'}} pick
@@ -18,9 +17,9 @@
 			</span>
 		</div>
 		<div ng-model="hideAll" ng-class="{'hidden': hide == true || hideAll == true}" class="panel-body col-md-11 col-lg-11">
-			<span ng-class="{'hidden': hide == true}">{{pick.description}}</span>
+			{{pick.description}}
 		</div>
-			<span ng-class="{'hidden': hide == true}" class="description">{{pick.description}}</span>
+		<span ng-class="{'hidden': hide == true || hideAll == true}" class="description">{{pick.description}}</span>
 	</div>
 
 	</li>
