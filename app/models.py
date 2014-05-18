@@ -97,6 +97,7 @@ class Pick(db.Model):
             'last_edited': self.last_edited,
             'date_added': self.date_added,
             'author_id': self.user_id,
+            'username': self.author.username,
             'cast_id': self.cast_id,
             'dj_list_position': self.dj_list_position
         }

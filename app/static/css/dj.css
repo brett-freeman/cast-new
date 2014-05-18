@@ -1,10 +1,12 @@
 .sortable-placeholder {
-	height: 100px;
-	list-style-type: none;
+	border: 1px dotted black;
 }
 .panel-title {
-	font-size: 12px;
+	font-size: 14px;
 }
 .panel-title small {
-	font-size: 10px;
+	font-size: 12px;
+}
+li {
+	list-style-type: none;
 }

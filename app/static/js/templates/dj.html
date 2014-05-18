@@ -1,15 +1,16 @@
 <span ng-model="positiondata">New position: {{positiondata}}</span>
-<ul class="list-group" ui-sortable="sortableOptions" ng-model="picks">
-<li style="list-style-type: none;" ng-repeat="pick in picks">
 
-<div class="panel panel-default">
-	<div ng-click="hide=!hide" class="panel-heading">
-		<h3 class="panel-title">{{pick.song}} <small>by</small> {{pick.artist}} <small>on</small> {{pick.album}}</h3>
+<ul class="list-group row" ui-sortable="sortableOptions" ng-model="picks">
+	<li class="col-md-3 col-lg-3 list-picks" ng-repeat="pick in picks" ng-init="hide=true">
+	<h4><span style="color: #797878; font-size: 20px;">{{$index}}. </span>{{pick.username}}'{{pick.username.slice(-1) == 's' | iif : '' : 's'}} pick</h4>
+	<div class="panel panel-default">
+		<div ng-click="hide=!hide" class="panel-heading" style="height: 75px; max-height: 100px;">
+			<h3 class="panel-title">{{pick.song}} <small>by</small> {{pick.artist}} <small>on</small> {{pick.album}}</h3>
+		</div>
+		<div ng-class="{'hidden': hide == true}" class="panel-body">
+	    	{{pick.description}}
+		</div>
 	</div>
-	<div ng-class="{'hidden': hide == true}" class="panel-body">
-    	{{pick.description}}
-	</div>
-</div>
 
-</li>
+	</li>
 </ul>

@@ -9,7 +9,12 @@ var djApp = angular
 		templateUrl: '../static/js/templates/dj.html',
 		controller: 'sortableCtrl'
 	})
-}]);
+}]).
+filter('iif', function () {
+   return function(input, trueValue, falseValue) {
+        return input ? trueValue : falseValue;
+   };
+});
 
 djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', function($scope, $http, orderByFilter, $stateParams) {
 	$http.get('../api/casts/' + $stateParams.castId).success(function(data) {
@@ -32,12 +37,9 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 			$scope.positiondata = ui.placeholder.index();
 			$scope.$apply();
 		},
-		placeholder: 'sortable-placeholder',
-		helper: 'clone',
 		opacity: '0.5',
 		tolerance: 'pointer',
-		revert: true,
-		axis: 'y'
+		connectWith: '.list-picks'
 
 	};
 }]);
