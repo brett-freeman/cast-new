@@ -53,8 +53,8 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		cursor: 'move'
 
 	};
-	$scope.togglePlayed = function($event, pick_id) {
-		$http.put('../api/dj/update_played/'+pick_id)
+	$scope.togglePlayed = function($event, pickId) {
+		$http.put('../api/dj/update_played/'+pickId)
 		.success(function(data) {
 			$scope.saveStatus = data;
 			if (data.slice(0,4) == 'Must') {
