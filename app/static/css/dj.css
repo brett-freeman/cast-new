@@ -7,6 +7,13 @@
 .panel-title small {
 	font-size: 10px;
 }
+.panel-body {
+	position: absolute;
+	z-index: 10000;
+	float: left;
+	background: #ffffff;
+	border: 2px solid #eee;
+}
 li {
 	list-style-type: none;
 }

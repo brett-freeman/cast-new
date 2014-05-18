@@ -50,7 +50,10 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		opacity: '0.5',
 		tolerance: 'pointer',
 		connectWith: '.list-picks',
-		cursor: 'move'
+		cursor: 'move',
+		helper: 'clone',
+		appendTo: 'body',
+		zIndex: 10000
 
 	};
 	$scope.togglePlayed = function($event, pickId) {

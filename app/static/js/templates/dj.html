@@ -13,9 +13,11 @@
 		<div class="panel-heading" style="height: 75px; max-height: 100px;">
 			<img class="pull-left thumbnail" src="{{pick.picture_url == '' | iif : '../../static/img/unknown-album.png' : pick.picture_url}}" style="height: 50px; max-width: 50px; margin-right: 3px;" />
 			<h3 class="panel-title" ng-class="{'strikethrough': pick.played==true}">{{pick.song}} <br /><small>by</small> {{pick.artist}} <br /><small>on</small> {{pick.album}}</h3>
-			<span ng-click="hide=!hide" class="glyphicon glyphicon-comment pull-right" style="clear: left; margin-top: -30px;"></span>
+			<span ng-click="hide=!hide" class="pull-right" style="clear: left; margin-top: -30px; font-size: 18px;">
+				<i class="{{hide == true | iif : 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-up'}}"></i>
+			</span>
 		</div>
-		<div ng-class="{'hidden': hide == true}" class="panel-body col-md-11 col-lg-11" style="position: absolute; z-index: 9999; background: #ffffff; border: 2px solid #eee;">
+		<div ng-class="{'hidden': hide == true}" class="panel-body col-md-11 col-lg-11">
 	    	{{pick.description}}
 		</div>
 	</div>
