@@ -16,11 +16,14 @@ filter('iif', function () {
    };
 });
 
-djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', function($scope, $http, orderByFilter, $stateParams) {
+djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', '$timeout', function($scope, $http, orderByFilter, $stateParams, $timeout) {
 	$http.get('../api/casts/' + $stateParams.castId).success(function(data) {
 		$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
 	});
 	$scope.sortableOptions = {
+		start: function(e, ui) {
+			$scope.saveStatus = '';
+		},
 		stop: function(e, ui) {
 			var pick_order = $scope.picks.map(function(i) {
 				return { 
@@ -29,17 +32,29 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 				};
 			});
 			$http.put('../api/dj/update_order/' + $stateParams.castId, pick_order).success(function(data) {
-				console.log(data);
+				$scope.saveStatus = data;
 			});
-			$scope.positiondata = '';
+			$timeout(function() {
+				$scope.saveStatus = '';
+			}, 2000);
 		},
 		change: function(e, ui) {
-			$scope.positiondata = ui.placeholder.index();
+			position = ui.placeholder.index()+1
+			$scope.saveStatus = 'Change to position '+position;
 			$scope.$apply();
 		},
 		opacity: '0.5',
 		tolerance: 'pointer',
 		connectWith: '.list-picks'
 
+	};
+	$scope.togglePlayed = function($event, pick_id) {
+		$http.put('../api/dj/update_played/'+pick_id)
+		.success(function(data) {
+			$scope.saveStatus = data;
+			$timeout(function() {
+				$scope.saveStatus = '';
+			}, 2000);
+		});
 	};
 }]);

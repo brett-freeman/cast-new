@@ -12,7 +12,7 @@ def api_fetch_picks(id=None):
 	return jsonify( picks=[pick.to_json for pick in Pick.query.all()] )
 
 
-@api.route('/dj/update_order/<int:cast_number>', methods=['PUT', 'GET'])
+@api.route('/dj/update_order/<int:cast_number>', methods=['PUT'])
 def update_order(cast_number):
 	picks_order = request.get_json()
 	cast = Cast.query.filter_by(cast_number=cast_number).first()
@@ -26,6 +26,19 @@ def update_order(cast_number):
 	try:
 		db.session.commit()
 	except Exception as e:
+		return 'Uh oh, something went wrong. Send this to Brett: %s' % str(e)
+
+	return 'Pick status for cast %s saved.' % str(cast.cast_number);
+
+@api.route('/dj/update_played/<int:pick_id>', methods=['PUT'])
+def updated_played(pick_id):
+	pick = Pick.query.get(pick_id)
+	pick.played = not pick.played
+	db.session.add(pick)
+
+	try:
+		db.session.commit()
+	except Exception as e:
 		return 'Yikes %s' % str(e)
 
-	return 'true'
+	return 'Play status updated.'
