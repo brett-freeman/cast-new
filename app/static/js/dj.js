@@ -18,6 +18,7 @@ filter('iif', function () {
 
 djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', '$timeout', function($scope, $http, orderByFilter, $stateParams, $timeout) {
 	$http.get('../api/casts/' + $stateParams.castId).success(function(data) {
+		$scope.castNumber = $stateParams.castId;
 		$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
 	});
 	$scope.sortableOptions = {
@@ -48,7 +49,8 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		},
 		opacity: '0.5',
 		tolerance: 'pointer',
-		connectWith: '.list-picks'
+		connectWith: '.list-picks',
+		cursor: 'move'
 
 	};
 	$scope.togglePlayed = function($event, pick_id) {
