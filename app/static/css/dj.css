@@ -11,12 +11,21 @@
 	position: absolute;
 	z-index: 9999;
 	float: left;
-	background: #D4D6D6;
+	background: #000;
 	border: 2px solid #eee;
-	opacity: 0.87;
+	opacity: 0.80;
 	color: #000;
 	line-height: 25px;
-	letter-spacing: 0.1em;
+	letter-spacing: 0.05em;
+}
+.description {
+	position: absolute;
+	color: #fff;
+	line-height: 25px;
+	letter-spacing: 0.05em;
+	z-index: 10000;
+	float: left;
+	padding: 10px;
 }
 li {
 	list-style-type: none;

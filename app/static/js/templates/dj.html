@@ -17,9 +17,10 @@
 				<i class="{{hide == true | iif : 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-up'}}"></i>
 			</span>
 		</div>
-		<div ng-class="{'hidden': hide == true || hideAll == true}" class="panel-body col-md-11 col-lg-11">
+		<div ng-model="hideAll" ng-class="{'hidden': hide == true || hideAll == true}" class="panel-body col-md-11 col-lg-11">
 			<span ng-class="{'hidden': hide == true}">{{pick.description}}</span>
 		</div>
+			<span ng-class="{'hidden': hide == true}" class="description">{{pick.description}}</span>
 	</div>
 
 	</li>
