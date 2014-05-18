@@ -24,8 +24,10 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 	$scope.sortableOptions = {
 		start: function(e, ui) {
 			$scope.saveStatus = '';
+			$scope.hideAll = true;
 		},
 		stop: function(e, ui) {
+			$scope.hideAll = false;
 			var pick_order = $scope.picks.map(function(i) {
 				return { 
 					id: i.id, 
