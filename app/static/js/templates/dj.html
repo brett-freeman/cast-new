@@ -1,16 +1,17 @@
 <h2 class="page-header">Cast {{castNumber}} DJ Portal  
-<small ng-model="saveStatus">{{saveStatus}}</small></h2>
+<small ng-model="saveStatus" ng-init="saveStatus='Drag and drop to rearrange'">{{saveStatus}}</small></h2>
 
 <ul class="list-group row" ui-sortable="sortableOptions" ng-model="picks">
-	<li class="col-md-3 col-lg-3 list-picks" ng-repeat="pick in picks" ng-init="hide=true">
-	<h4>
-		<span style="color: #797878; font-size: 18px;">{{$index+1}}. </span>
+	<li class="col-md-3 col-lg-3 list-picks" ng-repeat="pick in picks" ng-init="hide=true" 
+	ng-class="{'bg-danger': pick.played==true}">
+	<h4 ng-class="{'strikethrough': pick.played==true}">
+		<span ng-class="{'strikethrough': pick.played==true}"style="color: #797878; font-size: 18px;">{{$index+1}}. </span>
 		{{pick.username}}'{{pick.username.slice(-1) == 's' | iif : '' : 's'}} pick
 		<input type="checkbox" class="pull-right" ng-model="pick.played" ng-click="togglePlayed($event, pick.id)" />
 	</h4>
 	<div class="panel panel-default">
 		<div ng-click="hide=!hide" class="panel-heading" style="height: 75px; max-height: 100px;">
-			<h3 class="panel-title">{{pick.song}} <small>by</small> {{pick.artist}} <small>on</small> {{pick.album}}</h3>
+			<h3 class="panel-title" ng-class="{'strikethrough': pick.played==true}">{{pick.song}} <small>by</small> {{pick.artist}} <small>on</small> {{pick.album}}</h3>
 		</div>
 		<div ng-class="{'hidden': hide == true}" class="panel-body">
 	    	{{pick.description}}

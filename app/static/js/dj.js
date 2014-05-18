@@ -33,6 +33,9 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 			});
 			$http.put('../api/dj/update_order/' + $stateParams.castId, pick_order).success(function(data) {
 				$scope.saveStatus = data;
+				if (data.slice(0, 4) == 'Must') {
+					$scope.picks = orderByFilter($scope.picks, ['dj_list_position']);
+				}
 			});
 			$timeout(function() {
 				$scope.saveStatus = '';
@@ -52,6 +55,9 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		$http.put('../api/dj/update_played/'+pick_id)
 		.success(function(data) {
 			$scope.saveStatus = data;
+			if (data.slice(0,4) == 'Must') {
+				$event.target.checked = !$event.target.checked;
+			}
 			$timeout(function() {
 				$scope.saveStatus = '';
 			}, 2000);
