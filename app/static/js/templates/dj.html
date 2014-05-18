@@ -11,7 +11,8 @@
 	</h4>
 	<div class="panel panel-default">
 		<div ng-click="hide=!hide" class="panel-heading" style="height: 75px; max-height: 100px;">
-			<h3 class="panel-title" ng-class="{'strikethrough': pick.played==true}">{{pick.song}} <small>by</small> {{pick.artist}} <small>on</small> {{pick.album}}</h3>
+			<img class="pull-left thumbnail" src="{{pick.picture_url == '' | iif : '../../static/img/unknown-album.png' : pick.picture_url}}" style="height: 50px; max-width: 50px; margin-right: 3px;" />
+			<h3 class="panel-title" ng-class="{'strikethrough': pick.played==true}">{{pick.song}} <br /><small>by</small> {{pick.artist}} <br /><small>on</small> {{pick.album}}</h3>
 		</div>
 		<div ng-class="{'hidden': hide == true}" class="panel-body">
 	    	{{pick.description}}
