@@ -38,7 +38,7 @@ def update_order(cast_number):
 def updated_played(pick_id):
 	if current_user.is_anonymous():
 		return 'Must be logged in to edit play status'
-		
+
 	pick = Pick.query.get(pick_id)
 	pick.played = not pick.played
 	db.session.add(pick)
