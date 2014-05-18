@@ -41,7 +41,8 @@
 {% macro build_cast_header(cast, current_user, list=False) %}
 {% if cast and not list %}
 <div class="jumbotron">
-	<h2><strong>Cast <a href="{{ url_for('cast.view_cast', cast_number=cast.cast_number) }}">{{ cast.cast_number }}</a></strong></h2>
+	<h2><strong>Cast <a href="{{ url_for('cast.view_cast', cast_number=cast.cast_number) }}">{{ cast.cast_number }}</a></strong>
+	<small><a href="/dj/#/{{cast.cast_number}}">DJ Portal</a></small></h2>
 			<h2><p style="margin-left: 60px; font-size: 12pt;">hosted by <a href="{{ url_for('cast.user', username=cast.host.username) }}">{{ cast.host.username }}</a> <strong>on</strong> {{ cast.date }} <strong>at</strong> {{ cast.time }} <strong>with</strong> {{ cast.picks.count() }} picks</p></h2>
 	<div class="media">
 		<a href="#" class="thumbnail pull-left">
