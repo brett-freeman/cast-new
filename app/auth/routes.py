@@ -78,26 +78,22 @@ def settings(username=None):
 			user = User.query.get(current_user.id)
 		if user and not current_user.is_admin and user.verify_password(password_form.password.data):
 			user.password = password_form.new_password.data
-			try:
-				db.session.add(user)
-				db.session.commit()
-			except:
-				flash('Error changing your password.')
-
-			flash('Password changed')
-			return redirect(url_for('auth.settings'))
-		elif user and current_user.is_admin:
-			user.password = password_form.new_password.data	
-			try:
-				db.session.add(user)
-				db.session.commit()
-			except:
-				flash('Error changing your password.')
-
-			flash('Password changed')
-			return redirect(url_for('auth.settings'))
-		else:
+		elif not current_user.is_admin:
 			flash('Incorrect current password, try again.')
+			return redirect(url_for('auth.settings'))
+
+		if user and current_user.is_admin:
+			user.password = password_form.new_password.data	
+		try:
+			db.session.add(user)
+			db.session.commit()
+		except:
+			flash('Error changing your password.')
+
+		flash('Password changed')
+		if not username:
+			return redirect(url_for('auth.settings'))
+		return redirect(url_for('auth.edit_user', username=username))
 
 	if username:
 		user = User.query.filter_by(username=username).first()
