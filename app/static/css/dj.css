@@ -1,8 +1,15 @@
+li {
+	list-style-type: none;
+}
 .panel-title {
 	font-size: 12px;
 }
 .panel-title small {
 	font-size: 10px;
+}
+.panel-heading {
+	height: 75px; 
+	max-height: 100px;
 }
 .panel-body {
 	position: absolute;
@@ -24,9 +31,17 @@
 	float: left;
 	padding: 10px;
 }
-li {
-	list-style-type: none;
-}
 .strikethrough {
 	text-decoration: line-through;
+}
+.pick-number {
+	color: #797878; 
+	font-size: 18px;
+}
+.pick-image {
+	height: 50px; 
+	max-width: 50px; 
+	margin-right: 3px; 
+	border: 2px 
+	solid #eee;
 }

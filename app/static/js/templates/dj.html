@@ -1,25 +1,84 @@
-<h2 class="page-header">Cast <a href="../../cast/{{castNumber}}">{{castNumber}}</a> DJ Portal  
-<small ng-class="{'text-danger': saveStatus.slice(0,4) == 'Must'}" ng-model="saveStatus" ng-init="saveStatus='Drag and drop to rearrange'">{{saveStatus}}</small></h2>
-<button class="btn btn-default" ng-click="toggleView()">{{currentView}}</button>
-<ul class="list-group row" ui-sortable="sortableOptions" ng-model="picks">
-	<li ng-class="{'col-md-3 col-lg-3': listView == false, 'bg-danger': pick.played==true}" class="list-picks" ng-repeat="pick in picks" ng-init="hide=true">
-	<h4 ng-class="{'strikethrough': pick.played==true}">
-		<span ng-class="{'strikethrough': pick.played==true}"style="color: #797878; font-size: 18px;">{{$index+1}}. </span>
-		{{pick.username}}'{{pick.username.slice(-1) == 's' | iif : '' : 's'}} pick
-		<input type="checkbox" class="pull-right" ng-model="pick.played" ng-click="togglePlayed($event, pick.id, pick.played)" />
+<h2 class="page-header">
+	Cast 
+	<a href="../../cast/{{castNumber}}">
+		{{ castNumber }}
+	</a> 
+	DJ Portal 
+
+	<small ng-class="{ 'text-danger': saveStatus.slice(0,4) == 'Must' }" 
+		   ng-model="saveStatus" 
+		   ng-init="saveStatus = 'Drag and drop to rearrange'">
+		{{ saveStatus }}
+	</small>
+</h2>
+
+<button class="btn btn-default" 
+		ng-click="toggleView()">
+	{{ currentView }}
+</button>
+
+<ul class="list-group row" 
+	ui-sortable="sortableOptions" 
+	ng-model="picks">
+
+	<li class="list-picks" 
+		ng-class="{ 'col-md-3 col-lg-3': listView == false, 'bg-danger': pick.played == true }" 
+		ng-repeat="pick in picks" 
+		ng-init="hide = true">
+
+	<h4 ng-class="{ 'strikethrough': pick.played==true }">
+
+		<span class="pick-number">
+			{{ $index+1 }}. 
+		</span>
+
+		{{ pick.username }}'
+		{{ pick.username.slice(-1) == 's' | 
+			iif : '' : 's' }} 
+		pick
+		<input class="pull-right"
+			   type="checkbox"  
+			   ng-model="pick.played" 
+			   ng-click="togglePlayed($event, pick.id, pick.played)" 
+	   />
 	</h4>
+
 	<div class="panel panel-default">
-		<div ng-click="hide=!hide" class="panel-heading" style="height: 75px; max-height: 100px;">
-			<img class="pull-left img-rounded" src="{{pick.picture_url == '' | iif : '../../static/img/unknown-album.png' : pick.picture_url}}" style="height: 50px; max-width: 50px; margin-right: 3px; border: 2px solid #eee;" />
-			<h3 class="panel-title" ng-class="{'strikethrough': pick.played==true}">{{pick.song}} <br /><small>by</small> {{pick.artist}} <br /><small>on</small> {{pick.album}}</h3>
-			<span class="pull-right" style="clear: left; margin-top: -10px; margin-right: -10px; font-size: 18px;">
-				<i class="{{hide == true | iif : 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-up'}}"></i>
+
+		<div class="panel-heading"
+			 ng-click="hide = !hide">
+
+			<img class="pull-left img-rounded pick-image" 
+				 src="{{ pick.picture_url == '' | 
+				 			iif : '../../static/img/unknown-album.png' : pick.picture_url }}" 
+			/>
+
+			<h3 class="panel-title" 
+				ng-class="{ 'strikethrough': pick.played == true }">
+				{{pick.song}} <br />
+				<small>by</small> {{pick.artist}} <br />
+				<small>on</small> {{pick.album}}
+			</h3>
+
+			<span class="pull-right" 
+				  style="clear: left; margin-top: -10px; margin-right: -10px; font-size: 18px;">
+
+				<i class="{{ hide == true | 
+								iif : 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-up' }}">
+				</i>
 			</span>
 		</div>
-		<div ng-model="hideAll" ng-class="{'hidden': hide == true || hideAll == true}" class="panel-body col-md-11 col-lg-11">
+
+		<div class="panel-body col-md-11 col-lg-11"
+			 ng-model="hideAll" 
+			 ng-class="{ 'hidden': hide == true || hideAll == true }">
 			{{pick.description}}
 		</div>
-		<span ng-class="{'hidden': hide == true || hideAll == true}" class="description">{{pick.description}}</span>
+
+		<span class="description"
+			  ng-class="{ 'hidden': hide == true || hideAll == true }">
+			{{pick.description}}
+		</span>
 	</div>
 
 	</li>
