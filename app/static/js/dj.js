@@ -1,5 +1,5 @@
 var djApp = angular
-.module('djApp', ['ui.router', 'ui.sortable', 'doowb.angular-pusher'])
+.module('djApp', ['ui.router', 'ui.sortable', 'doowb.angular-pusher', 'ngSanitize'])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
 	
@@ -110,7 +110,7 @@ djApp.directive('pickheader', function() {
 	}
 });
 
-djApp.directive('toggleview', ['$document', function($document) {
+djApp.directive('toggleview', ['$document', '$sce', function($document, $sce) {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attrs) {
@@ -119,22 +119,28 @@ djApp.directive('toggleview', ['$document', function($document) {
 				if (scope.listView == true) {
 					element.html('Grid');
 					element.parent().find('li.list-picks').removeClass('col-md-3 col-lg-3');
+					element.parent().find('div.desc').removeClass('col-md-11 col-lg-11');
 					element.parent().find('div.desc')
 					.css({'position': 'relative',
 						  'color': '#fff',
-						  'margin-bottom': '20px'
+						  'width': '100%',
+						  'padding-bottom': '10px'
 					});
 					element.parent().find('span.desc').css('visibility', 'hidden');
 				}
 				else {
+					scope.listViewBreaks = '';
 					element.html('List');
 					element.parent().find('li.list-picks').addClass('col-md-3 col-lg-3');
+					element.parent().find('div.desc').addClass('col-md-11 col-lg-11');
 					element.parent().find('div.desc')
 					.css({'position': 'absolute',
-						  'color': '#000',
-						  'margin-bottom': '0'
+						  'color': '#fff',
+						  'width': '100%'
 					});
-					element.parent().find('span.desc').css('visibility:', 'show');
+					element.parent().find('span.desc')
+						.css({'visibility:': 'show'
+					});
 				}
 			})
 		}

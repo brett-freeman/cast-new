@@ -25,6 +25,7 @@
 		ng-class="{ 'bg-danger': pick.played == true }" 
 		ng-repeat="pick in picks" 
 		ng-init="hide = true">
+	<span ng-bind-html="listViewBreaks"></span>
 
 	<h4 ng-class="{ 'strikethrough': pick.played==true }">
 
