@@ -9,8 +9,8 @@ var djApp = angular
 		templateUrl: '../static/js/templates/dj.html',
 		controller: 'sortableCtrl'
 	})
-}]).
-filter('iif', function () {
+}])
+.filter('iif', function () {
    return function(input, trueValue, falseValue) {
         return input ? trueValue : falseValue;
    };
@@ -18,7 +18,6 @@ filter('iif', function () {
 
 djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', '$timeout', 'Pusher', function($scope, $http, orderByFilter, $stateParams, $timeout, Pusher) {
 	$scope.listView = false;
-	$scope.currentView = 'List';
 	$http.get('../api/casts/' + $stateParams.castId).success(function(data) {
 		$scope.castNumber = $stateParams.castId;
 		$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
@@ -73,13 +72,71 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 			}, 2000);
 		});
 	};
-	$scope.toggleView = function() {
-		if (!$scope.listView) {
-			$scope.currentView = 'Grid';
-		} 
-		else {
-			$scope.currentView = 'List';
+}]);
+
+
+djApp.directive('toggledesc', function() {
+	return {
+		restrict: 'A',
+		scope: {},
+		link: function(scope, element) {
+			element.bind('click', function () {
+				if (scope.hide == true) {
+					scope.$apply(scope.hide = false);
+					element.next().addClass('hidden');
+					element.next().next().addClass('hidden');
+				}
+				else {
+					scope.$apply(scope.hide = true);
+					element.next().removeClass('hidden');
+					element.next().next().removeClass('hidden');
+				}
+			})
 		}
-		$scope.listView = !$scope.listView;
-	};
+	}
+});
+
+djApp.directive('pickheader', function() {
+	return {
+		restrict: 'E',
+		link: function(scope, element, attrs) {
+			if (scope.pick.username.slice(-1) == 's') {
+				element.html(scope.pick.username+'\' pick');
+			} 
+			else {
+				element.html(scope.pick.username+'\'s pick');
+			}
+		}
+	}
+});
+
+djApp.directive('toggleview', ['$document', function($document) {
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs) {
+			element.bind('click', function() {
+				scope.$apply(scope.listView = !scope.listView);
+				if (scope.listView == true) {
+					element.html('Grid');
+					element.parent().find('li.list-picks').removeClass('col-md-3 col-lg-3');
+					element.parent().find('div.desc')
+					.css({'position': 'relative',
+						  'color': '#fff',
+						  'margin-bottom': '20px'
+					});
+					element.parent().find('span.desc').css('visibility', 'hidden');
+				}
+				else {
+					element.html('List');
+					element.parent().find('li.list-picks').addClass('col-md-3 col-lg-3');
+					element.parent().find('div.desc')
+					.css({'position': 'absolute',
+						  'color': '#000',
+						  'margin-bottom': '0'
+					});
+					element.parent().find('span.desc').css('visibility:', 'show');
+				}
+			})
+		}
+	}
 }]);

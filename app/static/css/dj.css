@@ -31,6 +31,12 @@ li {
 	float: left;
 	padding: 10px;
 }
+.description-arrow {
+	clear: left; 
+	margin-top: -10px; 
+	margin-right: -10px; 
+	font-size: 18px;
+}
 .strikethrough {
 	text-decoration: line-through;
 }

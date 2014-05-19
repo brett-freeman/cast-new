@@ -35,6 +35,7 @@ def pick():
 		pick.cast = g.next_cast
 		pick.author = current_user
 		pick.date_added = datetime.utcnow()
+		pick.dj_list_position = 0
 
 		db.session.add(pick)
 		db.session.commit()
