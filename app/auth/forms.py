@@ -16,7 +16,7 @@ class LoginForm(Form):
 	submit = SubmitField('Login')
 
 class ChangePasswordForm(Form):
-	password = PasswordField('Current Password', validators=[Required()])
+	password = PasswordField('Current Password', validators=[])
 	new_password = PasswordField('New Password', [Required(), Length(1, 128), EqualTo('confirm', message='Passwords must match')])
 	confirm = PasswordField('Repeat New Password')
 	submit = SubmitField('Confirm')

@@ -76,8 +76,18 @@ def settings(username=None):
 			user = User.query.filter_by(username=username).first_or_404()
 		else:
 			user = User.query.get(current_user.id)
-		if user and user.verify_password(password_form.password.data):
+		if user and not current_user.is_admin and user.verify_password(password_form.password.data):
 			user.password = password_form.new_password.data
+			try:
+				db.session.add(user)
+				db.session.commit()
+			except:
+				flash('Error changing your password.')
+
+			flash('Password changed')
+			return redirect(url_for('auth.settings'))
+		elif user and current_user.is_admin:
+			user.password = password_form.new_password.data	
 			try:
 				db.session.add(user)
 				db.session.commit()
@@ -88,6 +98,7 @@ def settings(username=None):
 			return redirect(url_for('auth.settings'))
 		else:
 			flash('Incorrect current password, try again.')
+
 	if username:
 		user = User.query.filter_by(username=username).first()
 		if user.avatar_url:
@@ -97,5 +108,7 @@ def settings(username=None):
 		avatar_form.avatar_url.data = user.avatar_url
 	else:
 		user = current_user
+	if current_user.is_admin:
+		del password_form.password
 
 	return render_template('auth/settings.html', password_form=password_form, avatar_form=avatar_form, user=user)
