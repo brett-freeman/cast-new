@@ -22,6 +22,7 @@ djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$statePar
 		$scope.castNumber = $stateParams.castId;
 		$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
 	});
+
 	$scope.sortableOptions = {
 		start: function(e, ui) {
 			$scope.saveStatus = '';
@@ -146,3 +147,15 @@ djApp.directive('toggleview', ['$document', '$sce', function($document, $sce) {
 		}
 	}
 }]);
+
+djApp.directive('nowplaying', function() {
+	return {
+		restrict: 'E',
+		scope: {
+			picks: '='
+		},
+		link: function(scope, element, attrs) {
+			console.log(scope['picks']);
+		}
+	}
+});
