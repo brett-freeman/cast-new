@@ -29,7 +29,11 @@ li {
 	color: #fff;
 	letter-spacing: 0.1em;
 	opacity: .93;
+	width: 261px;
 }
 .bg-danger {
 	text-decoration: line-through;
+}
+.nowplaying .panel-title {
+	width: 400px;
 }

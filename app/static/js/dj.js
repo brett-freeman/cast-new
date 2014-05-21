@@ -45,13 +45,6 @@ djApp.service('Cast', ['$http', function($http) {
 djApp.controller('MainCtrl', ['Cast', '$scope', '$stateParams', '$timeout', 'orderByFilter', function(Cast, $scope, $stateParams, $timeout, orderByFilter) {
 	$scope.hideAll = true;
 	$scope.statusMessage = 'Drag and drop to rearrange';
-	$scope.$watch('statusMessage', function(oldValue, newValue) {
-		if (newValue.slice(0, 6) != 'Change') {
-			$timeout(function() {
-				$scope.statusMessage = '';
-			}, 2000)
-		}
-	})
 	Cast.get($stateParams.castNumber).then(function(response) {
 		$scope.castData = response.data;
 		$scope.castData.picks = orderByFilter(response.data.picks, ['dj_list_position']);
