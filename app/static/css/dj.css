@@ -2,43 +2,14 @@ li {
 	list-style-type: none;
 }
 .panel-title {
-	font-size: 12px;
+	font-size: 11px;
 }
 .panel-title small {
-	font-size: 10px;
+	font-size: 9px;
 }
 .panel-heading {
 	height: 75px; 
 	max-height: 100px;
-}
-.panel-body {
-	position: absolute;
-	z-index: 9999;
-	float: left;
-	background: #000;
-	border: 2px solid #eee;
-	opacity: 0.90;
-	color: #000;
-	line-height: 25px;
-	letter-spacing: 0.05em;
-}
-.description {
-	position: absolute;
-	color: #fff;
-	line-height: 25px;
-	letter-spacing: 0.05em;
-	z-index: 10000;
-	float: left;
-	padding: 10px;
-}
-.description-arrow {
-	clear: left; 
-	margin-top: -10px; 
-	margin-right: -10px; 
-	font-size: 18px;
-}
-.strikethrough {
-	text-decoration: line-through;
 }
 .pick-number {
 	color: #797878; 
@@ -50,4 +21,15 @@ li {
 	margin-right: 3px; 
 	border: 2px 
 	solid #eee;
+}
+.description {
+	position: absolute;
+	z-index: 9999;
+	background-color: #000;
+	color: #fff;
+	letter-spacing: 0.1em;
+	opacity: .93;
+}
+.bg-danger {
+	text-decoration: line-through;
 }

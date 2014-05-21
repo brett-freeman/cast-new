@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, abort
 from flask.ext.login import current_user
 from app.extensions import db
 from . import api
@@ -17,7 +17,7 @@ def api_fetch_picks(id=None):
 @api.route('/dj/update_order/<int:cast_number>', methods=['PUT'])
 def update_order(cast_number):
 	if current_user.is_anonymous():
-		return 'Must be logged in to edit pick order'
+		return 'Must be logged in'
 	picks_order = request.get_json()
 	cast = Cast.query.filter_by(cast_number=cast_number).first()
 	for pick in cast.picks:
@@ -37,7 +37,7 @@ def update_order(cast_number):
 @api.route('/dj/update_played/<int:pick_id>', methods=['PUT'])
 def updated_played(pick_id):
 	if current_user.is_anonymous():
-		return 'Must be logged in to edit play status'
+		return 'Must be logged in'
 
 	pick = Pick.query.get(pick_id)
 	pick.played = not pick.played

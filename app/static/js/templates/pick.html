@@ -1,0 +1,32 @@
+<h4>
+	<span>{{ index+1 }}. </span>
+
+	{{ pick.username | aposFix }} pick
+	<toggleplayed></toggleplayed>
+</h4>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+
+		<img class="pull-left img-rounded pick-image" 
+			 src="{{ pick.picture_url == '' | 
+			 			iif : 'http://bongcast.com/static/img/unknown-album.png' : pick.picture_url }}" 
+		/>
+
+		<h3 class="panel-title"
+			ng-click="toggleDescription('div.description')">
+			{{ pick.song }} <br />
+			<small>by</small> {{ pick.artist }} <br />
+			<small>on</small> {{ pick.album }}
+		</h3>
+
+		<span class="pull-right description-arrow">
+
+			<i class="fa fa-chevron-circle-down">
+			</i>
+		</span>
+	</div>
+	<div class="panel-body description">
+		{{ pick.description }}
+	</div>
+</div>

@@ -1,78 +1,28 @@
 <h2 class="page-header">
 	Cast 
-	<a href="../../cast/{{castNumber}}">
-		{{ castNumber }}
+	<a href="../../cast/{{ castData.cast.cast_number }}">
+		{{ castData.cast.cast_number }}
 	</a> 
 	DJ Portal 
 
-	<small ng-class="{ 'text-danger': saveStatus.slice(0,4) == 'Must' }" 
-		   ng-model="saveStatus" 
-		   ng-init="saveStatus = 'Drag and drop to rearrange'">
-		{{ saveStatus }}
+	<small class='statusMessage' 
+		   ng-class="{'text-danger': statusMessage.slice(0,4) == 'Must'}">
+		{{ statusMessage }}
 	</small>
 </h2>
 
-<button class="btn btn-default" 
-		toggleview>
-		List
-</button>
-<nowplaying ng-model="picks" picks="picks"></nowplaying>
+<toggleall>{{ hideAll | 
+				iif : 'Show all' : 'Hide all'}}</toggleall>
+
 <ul class="list-group row" 
-	ui-sortable="sortableOptions" 
-	ng-model="picks">
-
+	ng-model="castData.picks" 
+	ui-sortable="sortableOptions">
 	<li class="col-md-3 col-lg-3 list-picks" 
-		ng-class="{ 'bg-danger': pick.played == true }" 
-		ng-repeat="pick in picks" 
-		ng-init="hide = true">
-	<h4 ng-class="{ 'strikethrough': pick.played==true }">
+		ng-class="{ 'bg-danger' : pick.played }" 
+		ng-repeat="pick in castData.picks">
 
-		<span class="pick-number">
-			{{ $index+1 }}. 
-		</span>
-
-		<pickheader></pickheader>
-
-		<input class="pull-right"
-			   type="checkbox"  
-			   ng-model="pick.played" 
-			   ng-click="togglePlayed($event, pick.id, pick.played)" 
-	   />
-	</h4>
-
-	<div class="panel panel-default">
-
-		<div class="panel-heading" 
-			 toggledesc>
-
-			<img class="pull-left img-rounded pick-image" 
-				 src="{{ pick.picture_url == '' | 
-				 			iif : '../../static/img/unknown-album.png' : pick.picture_url }}" 
-			/>
-
-			<h3 class="panel-title" 
-				ng-class="{ 'strikethrough': pick.played == true }">
-				{{ pick.song }} <br />
-				<small>by</small> {{ pick.artist }} <br />
-				<small>on</small> {{ pick.album }}
-			</h3>
-
-			<span class="pull-right description-arrow">
-
-				<i class="{{ hide == true | 
-								iif : 'fa fa-chevron-circle-down' : 'fa fa-chevron-circle-up' }}">
-				</i>
-			</span>
-		</div>
-
-		<div class="hidden panel-body col-md-11 col-lg-11 desc">
-			{{ pick.description }}
-		</div>
-
-		<span class="hidden description desc">
-			{{ pick.description }}
-		</span>
-	</div>
-
+		<pick cast="castData.cast" 
+			  pick="pick" 
+			  index="$index"></pick>
 	</li>
 </ul>

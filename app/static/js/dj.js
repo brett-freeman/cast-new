@@ -1,161 +1,133 @@
 var djApp = angular
-.module('djApp', ['ui.router', 'ui.sortable', 'doowb.angular-pusher', 'ngSanitize'])
+.module('djApp', ['ui.router', 'ngResource', 'ui.sortable'])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
 	
 	$stateProvider
 	.state('index', {
-		url: '/:castId',
+		url: '/:castNumber',
 		templateUrl: '../static/js/templates/dj.html',
-		controller: 'sortableCtrl'
+		controller: 'MainCtrl'
 	})
 }])
 .filter('iif', function () {
    return function(input, trueValue, falseValue) {
         return input ? trueValue : falseValue;
-   };
-});
+   }
+})
+.filter('aposFix', function () {
+	return function(input) {
+		return input.slice(-1) == 's' ? input+'\'' : input+'\'s';
+	}
+})
 
-djApp.controller('sortableCtrl', ['$scope', '$http', 'orderByFilter', '$stateParams', '$timeout', 'Pusher', function($scope, $http, orderByFilter, $stateParams, $timeout, Pusher) {
-	$scope.listView = false;
-	$http.get('../api/casts/' + $stateParams.castId).success(function(data) {
-		$scope.castNumber = $stateParams.castId;
-		$scope.picks = orderByFilter(data.picks, ['dj_list_position']);
-	});
+djApp.service('Cast', ['$http', function($http) {
+	this.get = function (castNumber) {
+		var castData = $http.get('../api/casts/'+castNumber).then(function(response) {
+			return response
+		})
+		return castData
+	}
+	this.updateOrder = function (pickOrder, castNumber) {
+		var pickOrder = $http.put('../api/dj/update_order/'+castNumber, pickOrder).then(function(response) {
+			return response
+		})
+		return pickOrder
+	}
+	this.updatePlayed = function (pickId) {
+		var updatePlayed = $http.put('../api/dj/update_played/'+pickId).then(function(response) {
+			return response
+		})
+		return updatePlayed
+	}
+}])
+
+djApp.controller('MainCtrl', ['Cast', '$scope', '$stateParams', '$timeout', 'orderByFilter', function(Cast, $scope, $stateParams, $timeout, orderByFilter) {
+	$scope.hideAll = true;
+	$scope.statusMessage = 'Drag and drop to rearrange';
+	$scope.$watch('statusMessage', function(oldValue, newValue) {
+		if (newValue.slice(0, 6) != 'Change') {
+			$timeout(function() {
+				$scope.statusMessage = '';
+			}, 2000)
+		}
+	})
+	Cast.get($stateParams.castNumber).then(function(response) {
+		$scope.castData = response.data;
+		$scope.castData.picks = orderByFilter(response.data.picks, ['dj_list_position']);
+	})
 
 	$scope.sortableOptions = {
 		start: function(e, ui) {
-			$scope.saveStatus = '';
-			$scope.hideAll = true;
+			console.log('here we go');
+		},
+		sort: function(e, ui) {
+			$scope.statusMessage = 'Change to position '+(ui.placeholder.index()+1);
+			$scope.$apply();
 		},
 		stop: function(e, ui) {
-			$scope.hideAll = false;
-			var pick_order = $scope.picks.map(function(i) {
-				return { 
-					id: i.id, 
-					position: $scope.picks.indexOf(i) 
-				};
-			});
-			$http.put('../api/dj/update_order/' + $stateParams.castId, pick_order).success(function(data) {
-				$scope.saveStatus = data;
-				if (data.slice(0, 4) == 'Must') {
-					$scope.picks = orderByFilter($scope.picks, ['dj_list_position']);
+			console.log('we have arrived');
+			var pickOrder = $scope.castData.picks.map(function(x) {
+				return {
+					id: x.id,
+					position: $scope.castData.picks.indexOf(x)
 				}
-			});
-			$timeout(function() {
-				$scope.saveStatus = '';
-			}, 2000);
-		},
-		change: function(e, ui) {
-			position = ui.placeholder.index()
-			$scope.saveStatus = 'Change to position '+position;
-			$scope.$apply();
+			})
+			Cast.updateOrder(pickOrder, $stateParams.castNumber).then(function(response) {
+				if (response.data.slice(0, 4) == 'Must') {
+					$scope.castData.picks = orderByFilter($scope.castData.picks, ['dj_list_position']);
+				}
+				$scope.statusMessage = response.data;
+			})
 		},
 		opacity: '0.5',
 		tolerance: 'pointer',
 		connectWith: '.list-picks',
-		cursor: 'move',
-		forceHelperSize: true,
 		helper: 'clone',
 		appendTo: 'body',
 		zIndex: 9999
-
-	};
-	$scope.togglePlayed = function($event, pickId) {
-		$http.put('../api/dj/update_played/'+pickId)
-		.success(function(data) {
-			$scope.saveStatus = data;
-			if (data.slice(0,4) == 'Must') {
-				$event.target.checked = !$event.target.checked;
-			}
-			$timeout(function() {
-				$scope.saveStatus = '';
-			}, 2000);
-		});
-	};
-}]);
-
-
-djApp.directive('toggledesc', function() {
-	return {
-		restrict: 'A',
-		scope: {},
-		link: function(scope, element) {
-			element.bind('click', function () {
-				if (scope.hide == true) {
-					scope.$apply(scope.hide = false);
-					element.next().addClass('hidden');
-					element.next().next().addClass('hidden');
-				}
-				else {
-					scope.$apply(scope.hide = true);
-					element.next().removeClass('hidden');
-					element.next().next().removeClass('hidden');
-				}
-			})
-		}
 	}
-});
-
-djApp.directive('pickheader', function() {
+}])
+djApp.directive('toggleall', function() {
 	return {
 		restrict: 'E',
+		transclude: true,
+		template: '<button ng-transclude ng-click=\'toggleAll()\'></button>',
 		link: function(scope, element, attrs) {
-			if (scope.pick.username.slice(-1) == 's') {
-				element.html(scope.pick.username+'\' pick');
-			} 
-			else {
-				element.html(scope.pick.username+'\'s pick');
+			scope.toggleAll = function() {
+				scope.hideAll == true ? angular.element('div.description').show() : angular.element('div.description').hide();
+				angular.element('i.fa').toggleClass('fa-chevron-circle-up fa-chevron-circle-down');
+				scope.hideAll = !scope.hideAll;
 			}
 		}
 	}
-});
-
-djApp.directive('toggleview', ['$document', '$sce', function($document, $sce) {
-	return {
-		restrict: 'A',
-		link: function(scope, element, attrs) {
-			element.bind('click', function() {
-				scope.$apply(scope.listView = !scope.listView);
-				if (scope.listView == true) {
-					element.html('Grid');
-					element.parent().find('li.list-picks').removeClass('col-md-3 col-lg-3');
-					element.parent().find('div.desc').removeClass('col-md-11 col-lg-11');
-					element.parent().find('div.desc')
-					.css({'position': 'relative',
-						  'color': '#fff',
-						  'width': '100%',
-						  'padding-bottom': '10px'
-					});
-					element.parent().find('span.desc').css('visibility', 'hidden');
-				}
-				else {
-					scope.listViewBreaks = '';
-					element.html('List');
-					element.parent().find('li.list-picks').addClass('col-md-3 col-lg-3');
-					element.parent().find('div.desc').addClass('col-md-11 col-lg-11');
-					element.parent().find('div.desc')
-					.css({'position': 'absolute',
-						  'color': '#fff',
-						  'width': '100%'
-					});
-					element.parent().find('span.desc')
-						.css({'visibility:': 'show'
-					});
-				}
-			})
-		}
-	}
-}]);
-
-djApp.directive('nowplaying', function() {
+})
+djApp.directive('toggleplayed', ['Cast', '$timeout', function(Cast, $timeout) {
 	return {
 		restrict: 'E',
-		scope: {
-			picks: '='
-		},
+		template: '<input class="pull-right" type="checkbox" ng-click="togglePlayed($event)" ng-model="pick.played" />',
 		link: function(scope, element, attrs) {
-			console.log(scope['picks']);
+			scope.togglePlayed = function($event) {
+				Cast.updatePlayed(scope.pick.id).then(function(response) {
+					if (response.data.slice(0,4) == 'Must') {
+						scope.pick.played = !scope.pick.played;
+					}
+					angular.element('small.statusMessage').scope().statusMessage = response.data;
+				})
+			}
 		}
 	}
-});
+}])
+djApp.directive('pick', function() {
+	return {
+		restrict: 'E',
+		templateUrl: '../static/js/templates/pick.html',
+		link: function(scope, element, attrs) {
+			angular.element('div.description').hide();
+			scope.toggleDescription = function(className) {
+				element.find('div.description').toggle();
+				element.find('i.fa').toggleClass('fa-chevron-circle-up fa-chevron-circle-down');
+			}
+		}
+	}
+})
