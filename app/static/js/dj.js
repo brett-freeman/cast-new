@@ -50,7 +50,6 @@ djApp.controller('MainCtrl', ['Cast', '$scope', '$stateParams', '$timeout', 'ord
 		Cast.get($stateParams.castNumber).then(function(response) {
 			$scope.castData = response.data;
 			$scope.castData.picks = orderByFilter(response.data.picks, ['dj_list_position']);
-			$timeout($scope.loadData, 30000)
 		})
 	}
 	$scope.loadData();
