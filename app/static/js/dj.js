@@ -32,6 +32,7 @@ djApp.service('Cast', ['$http', function($http) {
 		var pickOrder = $http.put('../api/dj/update_order/'+castNumber, pickOrder).then(function(response) {
 			return response
 		})
+
 		return pickOrder
 	}
 	this.updatePlayed = function (pickId) {
@@ -45,10 +46,14 @@ djApp.service('Cast', ['$http', function($http) {
 djApp.controller('MainCtrl', ['Cast', '$scope', '$stateParams', '$timeout', 'orderByFilter', function(Cast, $scope, $stateParams, $timeout, orderByFilter) {
 	$scope.hideAll = true;
 	$scope.statusMessage = 'Drag and drop to rearrange';
-	Cast.get($stateParams.castNumber).then(function(response) {
-		$scope.castData = response.data;
-		$scope.castData.picks = orderByFilter(response.data.picks, ['dj_list_position']);
-	})
+	$scope.loadData = function() {
+		Cast.get($stateParams.castNumber).then(function(response) {
+			$scope.castData = response.data;
+			$scope.castData.picks = orderByFilter(response.data.picks, ['dj_list_position']);
+			$timeout($scope.loadData, 30000)
+		})
+	}
+	$scope.loadData();
 
 	$scope.sortableOptions = {
 		start: function(e, ui) {
@@ -72,6 +77,7 @@ djApp.controller('MainCtrl', ['Cast', '$scope', '$stateParams', '$timeout', 'ord
 				}
 				$scope.statusMessage = response.data;
 			})
+			$scope.loadData()
 		},
 		opacity: '0.5',
 		tolerance: 'pointer',

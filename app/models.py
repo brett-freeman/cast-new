@@ -64,8 +64,12 @@ class Cast(db.Model):
             'date': self.date,
             'cast_number': self.cast_number,
             'description': self.description,
-            'picture_url': self.picture_url
+            'picture_url': self.picture_url,
+            'picks': self.to_json_picks
         }
+    @property
+    def to_json_picks(self):
+        return [ pick.to_json for pick in self.picks ]
 
 class Pick(db.Model):
     __tablename__ = 'picks'

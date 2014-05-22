@@ -12,7 +12,8 @@
 </h2>
 
 <toggleall>{{ hideAll | 
-				iif : 'Show all' : 'Hide all'}}</toggleall>
+				iif : 'Show all' : 'Hide all'}}</toggleall> 
+<button ng-click="loadData()">Refresh</button>
 
 <ul class="list-group row" 
 	ng-model="castData.picks" 
