@@ -6,15 +6,15 @@
 </h4>
 
 <div class="panel panel-default">
-	<div class="panel-heading">
+	<div class="panel-heading"
+		 ng-click="toggleDescription('div.description')">
 
 		<img class="pull-left img-rounded pick-image" 
 			 src="{{ pick.picture_url === '' | 
 			 			iif : '../../../static/img/unknown-album.png' : pick.picture_url }}" 
 		/>
 
-		<h3 class="panel-title"
-			ng-click="toggleDescription('div.description')">
+		<h3 class="panel-title">
 			{{ pick.song }} <br />
 			<small>by</small> {{ pick.artist }} <br />
 			<small>on</small> {{ pick.album }}
