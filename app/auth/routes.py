@@ -101,7 +101,7 @@ def settings(username=None):
 			flash('Admin required')
 		else:
 			user = User.query.filter_by(username=username).first_or_404()
-			user.is_admin = not user.is_admin
+			user.is_admin = admin_form.admin.data
 			db.session.add(user)
 			db.session.commit()
 			flash('Administrator status changed')

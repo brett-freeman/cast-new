@@ -1,5 +1,5 @@
 var djApp = angular
-.module('djApp', ['ui.router', 'ngResource', 'ui.sortable'])
+.module('djApp', ['ui.router', 'ui.sortable'])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
 	

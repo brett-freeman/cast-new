@@ -41,3 +41,7 @@ def delete_announcement(id):
 	db.session.commit()
 	flash('Announcement deleted')
 	return redirect(url_for('cast.index'))
+
+@admin.route('/new/', methods=['GET', 'POST'])
+def new_index():
+	return render_template('admin/new_index.html')

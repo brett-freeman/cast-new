@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+
 {% block scripts %}
 {{ super() }}
 <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
@@ -7,16 +7,15 @@
 <script src="//code.angularjs.org/1.2.4/angular.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
 
-<script type="text/javascript" src="/static/js/sortable.js"></script>
-<script type="text/javascript" src="/static/js/dj.js"></script>
+<script type="text/javascript" src="/static/js/admin.js"></script>
 
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/static/css/dj.css" type="text/css" media="all" />
 {% endblock %}
 
-{% block page_content %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-<div ng-app="djApp">
-<div ui-view></div>
+{% block page_content %}
+<div ng-app="adminApp">
+	<div ui-view></div>
 </div>
 {% endblock %}

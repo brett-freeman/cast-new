@@ -41,26 +41,37 @@
 {% macro build_cast_header(cast, current_user, list=False) %}
 {% if cast and not list %}
 <div class="jumbotron">
-	<h2><strong>Cast <a href="{{ url_for('cast.view_cast', cast_number=cast.cast_number) }}">{{ cast.cast_number }}</a></strong>
-	<small><a href="/dj/#/{{cast.cast_number}}">DJ Portal</a></small></h2>
-			<h2><p style="margin-left: 60px; font-size: 12pt;">hosted by <a href="{{ url_for('cast.user', username=cast.host.username) }}">{{ cast.host.username }}</a> <strong>on</strong> {{ cast.date }} <strong>at</strong> {{ cast.time }} <strong>with</strong> {{ cast.picks.count() }} picks</p></h2>
+	<h2><strong>
+		Cast <a href="{{ url_for('cast.view_cast', cast_number=cast.cast_number) }}">{{ cast.cast_number }}</a>
+		</strong>
+
+		<a href="{{ url_for('dj.index') }}#/{{ cast.cast_number }}" class="btn btn-primary" role="buttone">DJ</a> 
+		{% if cast.id == g.next_cast.id %}
+		<a href="{{ url_for('cast.pick') }}" class="btn btn-primary" role="button">Pick</a> 
+		{% endif %}
+		{% if current_user.is_admin or current_user.id == cast.host.id %}
+			<a href="{{ url_for('cast.edit_cast', id=cast.id) }}" class="btn btn-primary" role="button">Edit</a>
+		{% endif %}
+		{% if current_user.is_admin %}
+			<a href="{{ url_for('cast.delete_cast', id=cast.id) }}" class="btn btn-primary" role="button">Delete</a>
+		{% endif %}
+	</h2>
+
+	<h2><p style="margin-left: 60px; font-size: 12pt;">
+		hosted by 
+		<a href="{{ url_for('cast.user', username=cast.host.username) }}">{{ cast.host.username }}</a> 
+		<strong>on</strong> {{ cast.date }} 
+		<strong>at</strong> {{ cast.time }} 
+		<strong>with</strong> {{ cast.picks.count() }} picks
+		</p>
+	</h2>
+
 	<div class="media">
 		<a href="#" class="thumbnail pull-left">
 			<img src="{{ cast.picture_url if cast.picture_url else '/static/img/unknown-album.png' }}" 
 				style="max-width: 200px;" />
 		</a>
 		<p>{{ cast.description }}</p>
-		<p>
-		{% if cast.id == g.next_cast.id %}
-		<a href="{{ url_for('cast.pick') }}" class="btn btn-primary btn-lg" role="button">Pick</a> 
-		{% endif %}
-		{% if current_user.is_admin or current_user.id == cast.host.id %}
-			<a href="{{ url_for('cast.edit_cast', id=cast.id) }}" class="btn btn-primary btn-lg" role="button">Edit</a>
-		{% endif %}
-		{% if current_user.is_admin %}
-			<a href="{{ url_for('cast.delete_cast', id=cast.id) }}" class="btn btn-primary btn-lg" role="button">Delete</a>
-		{% endif %}
-		</p>
 	</div>
 </div>
 {% endif %}
