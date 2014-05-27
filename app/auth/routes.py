@@ -3,7 +3,7 @@ from flask.ext.login import login_user, logout_user, login_required, current_use
 from app.extensions import db
 from sqlalchemy.exc import IntegrityError
 from . import auth
-from .forms import RegisterForm, LoginForm, ChangePasswordForm, ChangeAvatarForm
+from .forms import RegisterForm, LoginForm, ChangePasswordForm, ChangeAvatarForm, AdminToggleForm
 from ..models import User
 
 @auth.route('/login/', methods=['GET', 'POST'])
@@ -47,6 +47,7 @@ def register():
 def settings(username=None):
 	password_form = ChangePasswordForm()
 	avatar_form = ChangeAvatarForm()
+	admin_form = AdminToggleForm()
 	if username and not current_user.is_admin:
 		flash('Incorrect permissions')
 		return redirect(url_for('cast.index'))
@@ -95,10 +96,23 @@ def settings(username=None):
 			return redirect(url_for('auth.settings'))
 		return redirect(url_for('auth.edit_user', username=username))
 
+	if admin_form.validate_on_submit():
+		if not current_user.is_admin:
+			flash('Admin required')
+		else:
+			user = User.query.filter_by(username=username).first_or_404()
+			user.is_admin = not user.is_admin
+			db.session.add(user)
+			db.session.commit()
+			flash('Administrator status changed')
+
+		return redirect(url_for('auth.edit_user', username=username))
+
 	if username:
 		user = User.query.filter_by(username=username).first()
 		if user.avatar_url:
 			avatar_form.avatar_url.data = user.avatar_url
+		admin_form.admin.data = user.is_admin
 	elif current_user.avatar_url:
 		user = current_user
 		avatar_form.avatar_url.data = user.avatar_url
@@ -107,4 +121,4 @@ def settings(username=None):
 	if current_user.is_admin:
 		del password_form.password
 
-	return render_template('auth/settings.html', password_form=password_form, avatar_form=avatar_form, user=user)
+	return render_template('auth/settings.html', password_form=password_form, avatar_form=avatar_form, admin_form=admin_form, user=user)

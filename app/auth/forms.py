@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, BooleanField
 from wtforms.validators import Required, Length, EqualTo
 from .validators import check_username
 
@@ -24,3 +24,7 @@ class ChangePasswordForm(Form):
 class ChangeAvatarForm(Form):
 	avatar_url = StringField('Avatar URL', validators=[Required()])
 	submit = SubmitField('Confirm')
+
+class AdminToggleForm(Form):
+	admin = BooleanField('Admin')
+	submit = SubmitField('Do')
