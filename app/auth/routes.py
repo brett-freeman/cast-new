@@ -44,6 +44,7 @@ def register():
 
 @auth.route('/settings/', endpoint='settings', methods=['GET', 'POST'])
 @auth.route('/settings/<string:username>', endpoint='edit_user', methods=['GET', 'POST'])
+@login_required
 def settings(username=None):
 	password_form = ChangePasswordForm()
 	avatar_form = ChangeAvatarForm()

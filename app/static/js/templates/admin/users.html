@@ -1,0 +1,5 @@
+<h2>Find User</h2> <input type="text" ng-model="userSearch.username" />
+<div ng-repeat="user in users | filter:userSearch | limitTo:limit">
+<h3><a href="#/users/{{user.username}}">{{user.username}}</a></h3>
+</div>
+<h4 ng-click="limit=limit+10">...{{ (users.length)-limit }} more (click for more or filter all with search)</h4>

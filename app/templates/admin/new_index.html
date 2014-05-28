@@ -16,6 +16,12 @@
 
 {% block page_content %}
 <div ng-app="adminApp">
-	<div ui-view></div>
+	<div class="pull-left" style="display: inline; margin-right: 20px; margin-top: 50px;">
+		<ul style="list-style-type: none; border-right: 1px solid black; padding: 5px; font-size: 25px; height: 300px;">
+			<li><a ui-sref="index">Index</a></li>
+			<li><a ui-sref="users">Users</a></li>
+		</ul>
+	</div>
+	<div ui-view style="display: inline-block;"></div>
 </div>
 {% endblock %}
