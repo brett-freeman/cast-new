@@ -37,7 +37,6 @@ class User(UserMixin, db.Model):
             'username': self.username,
             'is_admin': self.is_admin,
             'avatar_url': self.avatar_url,
-            'picks': self.to_json_picks
         }
 
     @property

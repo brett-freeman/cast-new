@@ -13,11 +13,13 @@ def create_app(config_name):
 	from .cast import cast as cast_blueprint
 	from .auth import auth as auth_blueprint
 	from .api_1_0 import api as api_blueprint
+	from .api_1_1 import api_1_1 as api_blueprint_1_1
 	from .admin import admin as admin_blueprint
 	from .dj import dj as dj_blueprint
 	app.register_blueprint(cast_blueprint)
 	app.register_blueprint(auth_blueprint, url_prefix='/auth')
 	app.register_blueprint(api_blueprint, url_prefix='/api')
+	app.register_blueprint(api_blueprint_1_1, url_prefix='/api1.1')
 	app.register_blueprint(admin_blueprint, url_prefix='/admin')
 	app.register_blueprint(dj_blueprint, url_prefix='/dj')
 
