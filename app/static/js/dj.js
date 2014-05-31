@@ -76,7 +76,9 @@ djApp.controller('MainCtrl', ['Cast', '$scope', '$stateParams', '$timeout', 'ord
 				}
 				$scope.statusMessage = response.data;
 			})
-			$scope.loadData()
+			$timeout(function() {
+				$scope.loadData()
+			}, 1500)
 		},
 		opacity: '0.5',
 		tolerance: 'pointer',
