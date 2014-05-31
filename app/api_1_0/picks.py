@@ -20,6 +20,9 @@ def update_order(cast_number):
 		return 'Must be logged in'
 	picks_order = request.get_json()
 	cast = Cast.query.filter_by(cast_number=cast_number).first()
+	if current_user.id != cast.host_id and not current_user.is_admin:
+		return 'Must be the host or an admin to to that'
+
 	for pick in cast.picks:
 		for pick_order in picks_order:
 			if pick.id == pick_order['id'] and pick.dj_list_position != pick_order['position']:
@@ -40,6 +43,9 @@ def updated_played(pick_id):
 		return 'Must be logged in'
 
 	pick = Pick.query.get(pick_id)
+	if pick.cast.host_id != current_user.id and not current_user.is_admin:
+		return 'Must be the host or an admin to to that'
+
 	pick.played = not pick.played
 	db.session.add(pick)
 
