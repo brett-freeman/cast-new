@@ -3,7 +3,18 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
+<div style="width: 80%">
+	<h2><small>
+	    <dl>
+	        <dt>The Four Pick Commandments </dt>
+	        <dd><strong>1.</strong> Pick something interesting and unique.</dd>
+	        <dd><strong>2.</strong> Consider the rest of the playlist during your pick. Will your pick add or detract from the variety of the playlist?</dd>
+	        <dd><strong>3.</strong> Select a song less than five or six minutes in length, a radio-friendly duration.</dd>
+	        <dd><strong>4.</strong> Try and keep it fresh by choosing a song you added to your library within the last month.</dd>
+	    </dl>
+	</small></h2>
+</div>
 <div style="width: 50%">
 	{{ wtf.quick_form(form) }}
-</div>
+</div>>
 {% endblock %}
