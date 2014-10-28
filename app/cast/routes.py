@@ -37,7 +37,10 @@ def pick():
 		pick.date_added = datetime.utcnow()
 		if g.next_cast.picks.count() > 0:
 			last_position = Pick.query.filter_by(cast_id=g.next_cast.id).order_by(Pick.dj_list_position.desc()).first()
-			pick.dj_list_position = int(last_position.dj_list_position)+1 
+			if last_position.dj_list_position:
+				pick.dj_list_position = last_position.dj_list_position+1 
+			else:
+				pick.dj_list_position = 0
 		else:
 			pick.dj_list_position = 0
 
