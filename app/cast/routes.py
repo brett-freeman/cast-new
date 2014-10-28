@@ -40,7 +40,7 @@ def pick():
 			if last_position.dj_list_position:
 				pick.dj_list_position = last_position.dj_list_position+1 
 			else:
-				pick.dj_list_position = 0
+				pick.dj_list_position = -1
 		else:
 			pick.dj_list_position = 0
 
